@@ -2,7 +2,6 @@
 
 Aplicación React + Vite para gestionar el formulario de canjes con influencers de Mi Gusto. Carga dinámica de campos desde Supabase, interfaz tematizada y paneles seguros para administración e historial de envíos.
 
-
 ![Demo](public/forminflusdemo1.png)
 
 ![Demo](public/forminflusdemo2.png)
