@@ -1,0 +1,588 @@
+import { useState, useEffect, useRef } from 'react';
+import {
+  X,
+  Search,
+  ChevronLeft,
+  ChevronRight,
+  Calendar,
+  Clock,
+  MapPin,
+  Instagram,
+  User,
+  FileText,
+  Pencil,
+  Trash2,
+  Save,
+  Loader2,
+  Undo2,
+} from 'lucide-react';
+import { formService } from '../services/formService';
+import { FormSubmission } from '../lib/supabase';
+
+interface HistoryPanelProps {
+  onClose: () => void;
+}
+
+export function HistoryPanel({ onClose }: HistoryPanelProps) {
+  const [submissions, setSubmissions] = useState<FormSubmission[]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedSubmission, setSelectedSubmission] = useState<FormSubmission | null>(null);
+  const [editingSubmission, setEditingSubmission] = useState<FormSubmission | null>(null);
+  const [editForm, setEditForm] = useState({
+    instagram: '',
+    recipient_name: '',
+    desired_date: '',
+    desired_time: '',
+    address: '',
+    additional_notes: '',
+  });
+  const [isSavingEdit, setIsSavingEdit] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<FormSubmission | null>(null);
+  const [actionMessage, setActionMessage] = useState('');
+  const messageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [lastDeleted, setLastDeleted] = useState<FormSubmission | null>(null);
+  const [isRestoring, setIsRestoring] = useState(false);
+  const showActionMessage = (message: string) => {
+    if (messageTimeoutRef.current) {
+      clearTimeout(messageTimeoutRef.current);
+    }
+    setActionMessage(message);
+    messageTimeoutRef.current = setTimeout(() => setActionMessage(''), 4000);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (messageTimeoutRef.current) {
+        clearTimeout(messageTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(totalCount / itemsPerPage);
+
+  useEffect(() => {
+    loadSubmissions();
+  }, [currentPage, searchTerm]);
+
+  const loadSubmissions = async () => {
+    try {
+      setIsLoading(true);
+      const { data, count } = await formService.getSubmissions(currentPage, itemsPerPage, searchTerm);
+      setSubmissions(data);
+      setTotalCount(count);
+    } catch (error) {
+      console.error('Error loading submissions:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
+    setCurrentPage(0);
+  };
+
+  const openEditModal = (submission: FormSubmission) => {
+    setEditingSubmission(submission);
+    setEditForm({
+      instagram: submission.instagram || '',
+      recipient_name: submission.recipient_name || '',
+      desired_date: submission.desired_date || '',
+      desired_time: submission.desired_time || '',
+      address: submission.address || '',
+      additional_notes: submission.additional_notes || '',
+    });
+  };
+
+  const handleEditChange = (field: keyof typeof editForm, value: string) => {
+    setEditForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleEditSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingSubmission) return;
+    try {
+      setIsSavingEdit(true);
+      const updated = await formService.updateSubmission(editingSubmission.id, editForm);
+      setSubmissions((prev) =>
+        prev.map((submission) => (submission.id === updated.id ? { ...submission, ...updated } : submission))
+      );
+      setEditingSubmission(null);
+      showActionMessage('Registro actualizado correctamente');
+    } catch (error) {
+      console.error('Error updating submission:', error);
+      alert('No se pudo actualizar el registro.');
+    } finally {
+      setIsSavingEdit(false);
+    }
+  };
+
+  const handleDelete = async (submissionId: string) => {
+    try {
+      setDeletingId(submissionId);
+      const deleted = await formService.deleteSubmission(submissionId);
+      setSubmissions((prev) => prev.filter((submission) => submission.id !== submissionId));
+      setTotalCount((prev) => Math.max(0, prev - 1));
+      setLastDeleted(deleted);
+      showActionMessage('Registro eliminado correctamente');
+    } catch (error) {
+      console.error('Error deleting submission:', error);
+      alert('No se pudo eliminar el registro.');
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const confirmDelete = async () => {
+    if (!pendingDelete) return;
+    await handleDelete(pendingDelete.id);
+    setPendingDelete(null);
+    setDeletingId(null);
+  };
+
+  const handleUndoDelete = async () => {
+    if (!lastDeleted) return;
+    try {
+      setIsRestoring(true);
+      const restored = await formService.restoreSubmission(lastDeleted);
+      setSubmissions((prev) => [restored, ...prev]);
+      setTotalCount((prev) => prev + 1);
+      setLastDeleted(null);
+      showActionMessage('Eliminación deshecha');
+    } catch (error) {
+      console.error('Error restoring submission:', error);
+      alert('No se pudo deshacer la eliminación.');
+    } finally {
+      setIsRestoring(false);
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  };
+
+  const formatTime = (timeString: string) => {
+    return timeString.slice(0, 5);
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
+      <div className="bg-gradient-to-br from-zinc-950 via-black to-zinc-900 border border-yellow-500/30 rounded-3xl shadow-[0_0_40px_rgba(255,215,0,0.15)] max-w-6xl w-full max-h-[90vh] overflow-hidden animate-slideUp text-yellow-50">
+        <div className="bg-gradient-to-r from-yellow-600/20 via-red-600/20 to-yellow-600/20 border-b border-yellow-500/30 text-yellow-100 p-6 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-2xl bg-black/40 border border-yellow-500/40">
+              <FileText className="w-6 h-6 text-yellow-300" />
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-yellow-400/70">
+                Envíos recientes
+              </p>
+              <h2 className="text-2xl font-black">Historial de Envíos</h2>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="hover:bg-yellow-500/10 p-2 rounded-lg transition-colors border border-transparent hover:border-yellow-500/40"
+            aria-label="Cerrar historial"
+          >
+            <X className="w-6 h-6 text-yellow-200" />
+          </button>
+        </div>
+
+        <div className="p-6">
+          <div className="mb-6">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-yellow-200/60 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Buscar por Instagram, nombre o dirección..."
+                value={searchTerm}
+                onChange={(e) => handleSearch(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 placeholder-yellow-200/40 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+              />
+            </div>
+          </div>
+
+          <div className="overflow-y-auto max-h-[calc(90vh-280px)] pr-1">
+            {isLoading ? (
+              <div className="text-center py-12 text-yellow-200/70">
+                <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-yellow-500/30 border-t-yellow-400"></div>
+                <p className="mt-4 text-sm uppercase tracking-[0.3em]">Cargando...</p>
+              </div>
+            ) : submissions.length === 0 ? (
+              <div className="text-center py-12 text-yellow-200/70">
+                <p className="text-lg font-medium">No se encontraron envíos</p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {submissions.map((submission) => (
+                  <div
+                    key={submission.id}
+                    onClick={() => setSelectedSubmission(submission)}
+                    className="border border-yellow-500/20 rounded-2xl p-4 bg-white/5 hover:bg-white/10 transition-all cursor-pointer shadow-inner shadow-yellow-500/5"
+                  >
+                    <div className="flex flex-col gap-3">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm flex-1">
+                          <div className="flex items-center gap-2">
+                            <Instagram className="w-4 h-4 text-pink-400 flex-shrink-0" />
+                            <span className="font-semibold text-yellow-50 truncate">
+                              @{submission.instagram}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <User className="w-4 h-4 text-blue-300 flex-shrink-0" />
+                            <span className="text-yellow-100 truncate">
+                              {submission.recipient_name}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4 text-green-300 flex-shrink-0" />
+                            <span className="text-yellow-200/80 text-sm">
+                              {new Date(submission.created_at).toLocaleDateString('es-ES')}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-end gap-2" onClick={(e) => e.stopPropagation()}>
+                          <button
+                            onClick={() => openEditModal(submission)}
+                            className="inline-flex items-center gap-1 px-3 py-1 rounded-full border border-yellow-400/40 text-yellow-100 text-xs uppercase tracking-[0.2em] hover:bg-yellow-500/10 transition-colors"
+                            title="Editar registro"
+                          >
+                            <Pencil className="w-3.5 h-3.5" />
+                            Editar
+                          </button>
+                          <button
+                            onClick={() => setPendingDelete(submission)}
+                            className="inline-flex items-center gap-1 px-3 py-1 rounded-full border border-red-500/50 text-red-200 text-xs uppercase tracking-[0.2em] hover:bg-red-500/10 transition-colors disabled:opacity-40"
+                            title="Eliminar registro"
+                            disabled={deletingId === submission.id}
+                          >
+                            {deletingId === submission.id ? (
+                              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                            ) : (
+                              <Trash2 className="w-3.5 h-3.5" />
+                            )}
+                            Eliminar
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {totalPages > 1 && (
+            <div className="mt-6 flex items-center justify-between border-t border-yellow-500/20 pt-4 text-yellow-100/80">
+              <p className="text-sm">
+                Mostrando {currentPage * itemsPerPage + 1} -{' '}
+                {Math.min((currentPage + 1) * itemsPerPage, totalCount)} de {totalCount} envíos
+              </p>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setCurrentPage((prev) => Math.max(0, prev - 1))}
+                  disabled={currentPage === 0}
+                  className="px-4 py-2 border border-yellow-500/30 rounded-xl hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  Anterior
+                </button>
+                <button
+                  onClick={() => setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1))}
+                  disabled={currentPage >= totalPages - 1}
+                  className="px-4 py-2 border border-yellow-500/30 rounded-xl hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+                >
+                  Siguiente
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {(actionMessage || lastDeleted) && (
+            <div className="mt-6 relative overflow-hidden rounded-2xl border border-yellow-500/30 bg-black/40 text-yellow-100 p-4 flex flex-col gap-3">
+              <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/10 via-red-600/10 to-yellow-500/10 animate-pulse"></div>
+              {actionMessage && (
+                <div className="relative flex items-center justify-center gap-2 text-xs uppercase tracking-[0.4em]">
+                  {actionMessage}
+                </div>
+              )}
+              {lastDeleted && (
+                <div className="relative flex flex-col md:flex-row items-center justify-between gap-3">
+                  <p className="text-xs tracking-[0.3em] uppercase text-yellow-200/70">
+                    Registro eliminado: @{lastDeleted.instagram}
+                  </p>
+                  <button
+                    onClick={handleUndoDelete}
+                    disabled={isRestoring}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-yellow-500/40 text-yellow-50 text-xs uppercase tracking-[0.4em] hover:bg-yellow-500/10 transition-all disabled:opacity-50"
+                  >
+                    {isRestoring ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Undo2 className="w-3.5 h-3.5" />}
+                    Deshacer eliminación
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {selectedSubmission && (
+        <div
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-60 flex items-center justify-center p-4 animate-fadeIn"
+          onClick={() => setSelectedSubmission(null)}
+        >
+          <div
+            className="bg-gradient-to-br from-zinc-950 via-black to-zinc-900 border border-yellow-500/30 rounded-3xl shadow-[0_0_30px_rgba(255,215,0,0.15)] max-w-2xl w-full animate-slideUp"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="bg-gradient-to-r from-red-700 via-yellow-600 to-red-700 text-black p-6 flex items-center justify-between rounded-t-3xl">
+              <h3 className="text-xl font-black">Detalles del Envío</h3>
+              <button
+                onClick={() => setSelectedSubmission(null)}
+                className="hover:bg-black/10 p-2 rounded-lg transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-4 text-yellow-50">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <div className="flex items-center gap-2 text-yellow-200 mb-1">
+                    <Instagram className="w-4 h-4" />
+                    <span className="text-sm font-medium">Instagram</span>
+                  </div>
+                  <p className="font-semibold">@{selectedSubmission.instagram}</p>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2 text-yellow-200 mb-1">
+                    <User className="w-4 h-4" />
+                    <span className="text-sm font-medium">Destinatario</span>
+                  </div>
+                  <p>{selectedSubmission.recipient_name}</p>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2 text-yellow-200 mb-1">
+                    <Calendar className="w-4 h-4" />
+                    <span className="text-sm font-medium">Fecha deseada</span>
+                  </div>
+                  <p>{formatDate(selectedSubmission.desired_date)}</p>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2 text-yellow-200 mb-1">
+                    <Clock className="w-4 h-4" />
+                    <span className="text-sm font-medium">Hora deseada</span>
+                  </div>
+                  <p>{formatTime(selectedSubmission.desired_time)}</p>
+                </div>
+              </div>
+
+              <div>
+                <div className="flex items-center gap-2 text-yellow-200 mb-1">
+                  <MapPin className="w-4 h-4" />
+                  <span className="text-sm font-medium">Dirección</span>
+                </div>
+                <p>{selectedSubmission.address}</p>
+              </div>
+
+              {selectedSubmission.additional_notes && (
+                <div>
+                  <div className="flex items-center gap-2 text-yellow-200 mb-1">
+                    <FileText className="w-4 h-4" />
+                    <span className="text-sm font-medium">Notas adicionales</span>
+                  </div>
+                  <p className="bg-black/40 border border-yellow-500/20 p-3 rounded-2xl">
+                    {selectedSubmission.additional_notes}
+                  </p>
+                </div>
+              )}
+
+              <div className="pt-4 border-t border-yellow-500/20 text-sm text-yellow-200/80">
+                Enviado el {formatDate(selectedSubmission.created_at)} a las{' '}
+                {new Date(selectedSubmission.created_at).toLocaleTimeString('es-ES', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              </div>
+            </div>
+
+            <div className="border-t border-yellow-500/20 bg-black/40 p-4 flex justify-end rounded-b-3xl">
+              <button
+                onClick={() => setSelectedSubmission(null)}
+                className="px-6 py-2 bg-gradient-to-r from-red-700 via-yellow-600 to-red-700 text-black font-black rounded-xl transition-all"
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {editingSubmission && (
+        <div
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-60 flex items-center justify-center p-4 animate-fadeIn"
+          onClick={() => setEditingSubmission(null)}
+        >
+          <div
+            className="bg-gradient-to-br from-zinc-950 via-black to-zinc-900 border border-yellow-500/30 rounded-3xl shadow-[0_0_30px_rgba(255,215,0,0.15)] max-w-2xl w-full animate-slideUp"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="bg-gradient-to-r from-yellow-600/30 via-red-600/30 to-yellow-600/30 text-yellow-50 p-6 flex items-center justify-between rounded-t-3xl">
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-yellow-200/70">Acción rápida</p>
+                <h3 className="text-xl font-black">Editar registro</h3>
+              </div>
+              <button
+                onClick={() => setEditingSubmission(null)}
+                className="hover:bg-yellow-500/10 p-2 rounded-lg transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form className="p-6 space-y-4 text-yellow-50" onSubmit={handleEditSubmit}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-yellow-200 mb-1">Instagram</label>
+                  <input
+                    type="text"
+                    value={editForm.instagram}
+                    onChange={(e) => handleEditChange('instagram', e.target.value)}
+                    className="w-full px-3 py-2 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-yellow-200 mb-1">Destinatario</label>
+                  <input
+                    type="text"
+                    value={editForm.recipient_name}
+                    onChange={(e) => handleEditChange('recipient_name', e.target.value)}
+                    className="w-full px-3 py-2 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-yellow-200 mb-1">Fecha deseada</label>
+                  <input
+                    type="date"
+                    value={editForm.desired_date}
+                    onChange={(e) => handleEditChange('desired_date', e.target.value)}
+                    className="w-full px-3 py-2 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-yellow-200 mb-1">Hora deseada</label>
+                  <input
+                    type="time"
+                    value={editForm.desired_time}
+                    onChange={(e) => handleEditChange('desired_time', e.target.value)}
+                    className="w-full px-3 py-2 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-yellow-200 mb-1">Dirección</label>
+                <input
+                  type="text"
+                  value={editForm.address}
+                  onChange={(e) => handleEditChange('address', e.target.value)}
+                  className="w-full px-3 py-2 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-yellow-200 mb-1">Notas adicionales</label>
+                <textarea
+                  value={editForm.additional_notes}
+                  onChange={(e) => handleEditChange('additional_notes', e.target.value)}
+                  rows={3}
+                  className="w-full px-3 py-2 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                />
+              </div>
+
+              <div className="flex justify-end gap-3 pt-4 border-t border-yellow-500/20">
+                <button
+                  type="button"
+                  onClick={() => setEditingSubmission(null)}
+                  className="px-5 py-2 border border-yellow-500/30 rounded-xl text-yellow-100 hover:bg-white/5 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSavingEdit}
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-red-700 via-yellow-600 to-red-700 text-black font-black flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSavingEdit ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Guardando...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="w-4 h-4" />
+                      Guardar Cambios
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {pendingDelete && (
+        <div
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-60 flex items-center justify-center p-4 animate-fadeIn"
+          onClick={() => setPendingDelete(null)}
+        >
+          <div
+            className="bg-gradient-to-br from-zinc-950 via-black to-zinc-900 border border-red-500/40 rounded-3xl shadow-[0_0_30px_rgba(255,0,0,0.25)] max-w-md w-full animate-slideUp"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="bg-gradient-to-r from-red-700 via-yellow-600 to-red-700 text-black p-6 rounded-t-3xl">
+              <p className="text-xs uppercase tracking-[0.35em] text-black/70">Confirmación</p>
+              <h3 className="text-2xl font-black">Eliminar registro</h3>
+            </div>
+            <div className="p-6 space-y-3 text-yellow-50">
+              <p className="text-sm text-yellow-200/80">
+                ¿Seguro que deseas eliminar el registro de <span className="font-semibold">@{pendingDelete.instagram}</span>? Esta acción no
+                se puede deshacer.
+              </p>
+            </div>
+            <div className="border-t border-red-500/40 bg-black/60 p-4 flex justify-end gap-3 rounded-b-3xl">
+              <button
+                onClick={() => setPendingDelete(null)}
+                className="px-5 py-2 rounded-xl border border-yellow-500/30 text-yellow-100 hover:bg-white/5 transition-colors"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="px-5 py-2 rounded-xl bg-gradient-to-r from-red-700 via-yellow-600 to-red-700 text-black font-black flex items-center gap-2"
+              >
+                <Trash2 className="w-4 h-4" />
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
