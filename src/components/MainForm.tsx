@@ -116,6 +116,19 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
     );
   }
 
+  const helperTexts: Record<string, string> = {
+    instagram: 'Escribe tu usuario sin @. Ejemplo: mingusto.oficial',
+    recipient_name: 'Persona que recibirá el canje. Nombre y apellido.',
+    desired_date: 'Selecciona la fecha exacta. Si no la sabes, elige la más aproximada.',
+    desired_time: 'Horario estimado para recibir el canje.',
+    address: 'Incluye calle, número, ciudad y referencias sencillas.',
+    additional_notes: 'Indica gustos, alergias u otros detalles que debamos saber.',
+  };
+
+  const completedFields = fields.filter(
+    (field) => formData[field.name]?.trim()
+  ).length;
+
   return (
     <div className="relative max-w-4xl mx-auto lg:pr-28">
       <div className="lg:hidden absolute top-4 right-4 flex flex-col gap-2 z-40">
@@ -168,7 +181,7 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
           <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-700 to-transparent opacity-30"></div>
 
           <div className="p-10">
-            <div className="text-center mb-10">
+            <div className="text-center mb-10 space-y-6">
               <div className="flex justify-center mb-6">
                 <img
                   src="/Logo%20Mi%20Gusto%202025.png"
@@ -176,7 +189,7 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
                   className="w-60 h-auto drop-shadow-[0_0_25px_rgba(255,255,255,0.35)]"
                 />
               </div>
-              <div className="flex items-center justify-center gap-4 mb-4">
+              <div className="flex items-center justify-center gap-4">
                 <Crown className="w-12 h-12 text-yellow-500 animate-pulse" />
                 <h1 className="text-5xl font-black bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-500 text-transparent bg-clip-text">
                   FORMULARIO DE CANJES
@@ -187,6 +200,24 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
               <p className="text-gray-400 text-lg font-medium">
                 Completa los datos para coordinar tu intercambio
               </p>
+              <div className="flex flex-col md:flex-row items-center justify-between gap-3 bg-black/30 border border-yellow-500/30 rounded-2xl px-5 py-3 text-sm text-yellow-100">
+                <p className="uppercase tracking-[0.3em] text-xs text-yellow-400">Progreso rápido</p>
+                <div className="w-full md:w-auto flex items-center gap-3">
+                  <div className="flex-1 bg-yellow-500/10 rounded-full h-3 overflow-hidden">
+                    <div
+                      className="bg-gradient-to-r from-yellow-400 to-red-500 h-3 transition-all"
+                      style={{
+                        width: fields.length
+                          ? `${Math.round((completedFields / fields.length) * 100)}%`
+                          : '0%',
+                      }}
+                    ></div>
+                  </div>
+                  <span className="text-sm font-semibold">
+                    {completedFields}/{fields.length} completados
+                  </span>
+                </div>
+              </div>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -197,6 +228,7 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
                   value={formData[field.name] || ''}
                   onChange={(value) => handleFieldChange(field.name, value)}
                   error={errors[field.name]}
+                  placeholder={helperTexts[field.name] || field.label}
                 />
               ))}
 

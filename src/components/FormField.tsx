@@ -7,9 +7,10 @@ interface FormFieldProps {
   value: string;
   onChange: (value: string) => void;
   error?: string;
+  placeholder?: string;
 }
 
-export function FormField({ field, value, onChange, error }: FormFieldProps) {
+export function FormField({ field, value, onChange, error, placeholder }: FormFieldProps) {
   if (!field.enabled) return null;
 
   const baseClasses = "w-full px-5 py-4 bg-zinc-950 border-2 rounded-xl text-gray-100 placeholder-gray-600 focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all font-medium backdrop-blur-sm";
@@ -26,7 +27,7 @@ export function FormField({ field, value, onChange, error }: FormFieldProps) {
             onChange={(e) => onChange(e.target.value)}
             className={`${baseClasses} ${errorClasses} min-h-[120px] resize-y`}
             required={field.required}
-            placeholder={field.label}
+            placeholder={placeholder || field.label}
           />
         );
       case 'date':
@@ -37,13 +38,15 @@ export function FormField({ field, value, onChange, error }: FormFieldProps) {
               type="date"
               value={value}
               onChange={(e) => onChange(e.target.value)}
-              className={`${baseClasses} ${errorClasses} pr-14`}
+              className={`${baseClasses} ${errorClasses} pl-14`}
               required={field.required}
+              placeholder={placeholder}
+              title={placeholder}
             />
             <button
               type="button"
               onClick={() => dateInputRef.current?.showPicker?.()}
-              className="absolute inset-y-0 right-4 flex items-center justify-center text-yellow-400/70 hover:text-yellow-200 transition-colors"
+              className="absolute inset-y-0 left-4 flex items-center justify-center text-yellow-400/70 hover:text-yellow-200 transition-colors"
               aria-label="Seleccionar fecha"
             >
               <CalendarIcon className="w-5 h-5" />
@@ -58,13 +61,15 @@ export function FormField({ field, value, onChange, error }: FormFieldProps) {
               type="time"
               value={value}
               onChange={(e) => onChange(e.target.value)}
-              className={`${baseClasses} ${errorClasses} pr-14`}
+              className={`${baseClasses} ${errorClasses} pl-14`}
               required={field.required}
+              placeholder={placeholder}
+              title={placeholder}
             />
             <button
               type="button"
               onClick={() => timeInputRef.current?.showPicker?.()}
-              className="absolute inset-y-0 right-4 flex items-center justify-center text-yellow-400/70 hover:text-yellow-200 transition-colors"
+              className="absolute inset-y-0 left-4 flex items-center justify-center text-yellow-400/70 hover:text-yellow-200 transition-colors"
               aria-label="Seleccionar hora"
             >
               <Clock className="w-5 h-5" />
@@ -79,7 +84,7 @@ export function FormField({ field, value, onChange, error }: FormFieldProps) {
             onChange={(e) => onChange(e.target.value)}
             className={`${baseClasses} ${errorClasses}`}
             required={field.required}
-            placeholder={field.label}
+            placeholder={placeholder || field.label}
           />
         );
     }
