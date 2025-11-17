@@ -29,6 +29,7 @@ export interface FormSubmission {
   desired_time: string;
   address: string;
   additional_notes: string;
+  coupon_code?: string | null;
   metadata: Record<string, any>;
   created_at: string;
 }

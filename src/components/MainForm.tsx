@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Send, Loader2, Flame, Crown, History, Shield } from 'lucide-react';
+import { Send, Loader2, History, Shield } from 'lucide-react';
 import { FormField } from './FormField';
 import { formService } from '../services/formService';
 import { FormField as FormFieldType } from '../lib/supabase';
@@ -117,7 +117,7 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
   }
 
   const helperTexts: Record<string, string> = {
-    instagram: 'Escribe tu usuario sin @. Ejemplo: mingusto.oficial',
+    instagram: 'Escribe tu usuario sin @. Ej: migusto.oficial',
     recipient_name: 'Persona que recibirá el canje. Nombre y apellido.',
     desired_date: 'Selecciona la fecha exacta. Si no la sabes, elige la más aproximada.',
     desired_time: 'Horario estimado para recibir el canje.',
@@ -160,10 +160,10 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
             Historial
           </span>
         </button>
-        <button
-          onClick={onAdminClick}
+      <button
+        onClick={onAdminClick}
           className="group relative w-12 h-12 rounded-full bg-black/40 border border-yellow-400/30 text-yellow-100/70 hover:text-yellow-50 hover:border-yellow-300 transition-all shadow-lg shadow-black/40 backdrop-blur-sm flex items-center justify-center"
-          aria-label="Admin"
+        aria-label="Admin"
         >
           <div className="absolute inset-0 rounded-full bg-gradient-to-b from-yellow-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
           <Shield className="relative w-5 h-5 text-yellow-300 group-hover:text-yellow-200" />
@@ -174,8 +174,6 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
       </div>
 
       <div className="relative group">
-        <div className="absolute -inset-1 bg-gradient-to-r from-red-600 via-yellow-500 to-red-600 rounded-3xl blur-lg opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
-
         <div className="relative bg-gradient-to-br from-zinc-900 via-black to-zinc-900 rounded-3xl border-2 border-yellow-500/30 shadow-2xl overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50"></div>
           <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-700 to-transparent opacity-30"></div>
@@ -189,30 +187,25 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
                   className="w-60 h-auto drop-shadow-[0_0_25px_rgba(255,255,255,0.35)]"
                 />
               </div>
-              <div className="flex items-center justify-center gap-4">
-                <Crown className="w-12 h-12 text-yellow-500 animate-pulse" />
-                <h1 className="text-5xl font-black bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-500 text-transparent bg-clip-text">
-                  FORMULARIO DE CANJES
-                </h1>
-                <Flame className="w-12 h-12 text-red-600 animate-pulse" />
-              </div>
-              <div className="h-1 w-64 mx-auto bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent mb-4"></div>
-              <p className="text-gray-400 text-lg font-medium">
-                Completa los datos para coordinar tu intercambio
+              <h1 className="text-5xl font-black text-yellow-100">
+                FORMULARIO DE CANJES
+              </h1>
+              <p className="text-gray-200 text-lg font-semibold">
+                Completa cada respuesta y presiona ENVIAR.
               </p>
               <div className="flex flex-col md:flex-row items-center justify-between gap-3 bg-black/30 border border-yellow-500/30 rounded-2xl px-5 py-3 text-sm text-yellow-100">
                 <p className="uppercase tracking-[0.3em] text-xs text-yellow-400">Progreso rápido</p>
                 <div className="w-full md:w-auto flex items-center gap-3">
                   <div className="flex-1 bg-yellow-500/10 rounded-full h-3 overflow-hidden">
                     <div
-                      className="bg-gradient-to-r from-yellow-400 to-red-500 h-3 transition-all"
+                      className="bg-yellow-400 h-3 transition-all"
                       style={{
                         width: fields.length
                           ? `${Math.round((completedFields / fields.length) * 100)}%`
                           : '0%',
                       }}
                     ></div>
-                  </div>
+            </div>
                   <span className="text-sm font-semibold">
                     {completedFields}/{fields.length} completados
                   </span>
@@ -238,8 +231,8 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
                   disabled={isSubmitting}
                   className="relative w-full group/btn"
                 >
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-red-600 via-yellow-500 to-red-600 rounded-xl blur opacity-50 group-hover/btn:opacity-100 transition duration-200"></div>
-                  <div className="relative flex items-center justify-center gap-3 px-8 py-5 bg-gradient-to-r from-red-700 via-yellow-600 to-red-700 rounded-xl text-black font-black text-xl tracking-wide shadow-lg transition-all duration-200 group-hover/btn:from-red-600 group-hover/btn:via-yellow-500 group-hover/btn:to-red-600 disabled:opacity-50 disabled:cursor-not-allowed">
+                  <div className="absolute -inset-0.5 rounded-xl bg-yellow-400 opacity-60 group-hover/btn:opacity-80 transition duration-200"></div>
+                  <div className="relative flex items-center justify-center gap-3 px-8 py-5 bg-yellow-500 rounded-xl text-black font-black text-xl tracking-wide shadow-lg transition-all duration-200 group-hover/btn:bg-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed">
                     {isSubmitting ? (
                       <>
                         <Loader2 className="w-7 h-7 animate-spin" />
@@ -249,7 +242,6 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
                       <>
                         <Send className="w-7 h-7" />
                         <span>ENVIAR FORMULARIO</span>
-                        <Flame className="w-7 h-7" />
                       </>
                     )}
                   </div>
@@ -261,10 +253,8 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
               <div className="mt-10 relative overflow-hidden rounded-2xl">
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/20 to-red-600/20 animate-pulse"></div>
                 <div className="relative p-5 border-2 border-yellow-500/50 backdrop-blur-sm">
-                  <p className="text-yellow-400 font-bold text-lg text-center flex items-center justify-center gap-3">
-                    <Flame className="w-6 h-6" />
+                  <p className="text-yellow-400 font-bold text-lg text-center">
                     ¡Formulario enviado con éxito!
-                    <Flame className="w-6 h-6" />
                   </p>
                 </div>
               </div>

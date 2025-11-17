@@ -15,7 +15,7 @@ export const formService = {
   async submitForm(formData: Omit<FormSubmission, 'id' | 'created_at' | 'metadata'>) {
     const { data, error } = await supabase
       .from('form_submissions')
-      .insert([formData])
+      .insert([{ ...formData, coupon_code: formData.coupon_code ?? null }])
       .select()
       .single();
 
@@ -47,7 +47,8 @@ export const formService = {
       'desired_date',
       'desired_time',
       'address',
-      'additional_notes'
+      'additional_notes',
+      'coupon_code'
     ];
 
     const sanitizedUpdates = allowedFields.reduce((acc, field) => {

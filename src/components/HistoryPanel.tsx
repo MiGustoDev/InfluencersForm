@@ -15,7 +15,9 @@ import {
   Save,
   Loader2,
   Undo2,
+  Download,
 } from 'lucide-react';
+import * as XLSX from 'xlsx';
 import { formService } from '../services/formService';
 import { FormSubmission } from '../lib/supabase';
 
@@ -38,6 +40,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
     desired_time: '',
     address: '',
     additional_notes: '',
+    coupon_code: '',
   });
   const [isSavingEdit, setIsSavingEdit] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -96,6 +99,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
       desired_time: submission.desired_time || '',
       address: submission.address || '',
       additional_notes: submission.additional_notes || '',
+      coupon_code: submission.coupon_code || '',
     });
   };
 
@@ -174,6 +178,47 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
     return timeString.slice(0, 5);
   };
 
+  const downloadSubmission = (submission: FormSubmission) => {
+    const headers = [
+      'Instagram',
+      'Destinatario',
+      'Fecha deseada',
+      'Hora deseada',
+      'Dirección',
+      'Cupón',
+      'Notas adicionales',
+      'Creado el',
+    ];
+    const values = [
+      submission.instagram,
+      submission.recipient_name,
+      submission.desired_date,
+      submission.desired_time,
+      submission.address,
+      submission.coupon_code || '',
+      submission.additional_notes || '',
+      new Date(submission.created_at).toLocaleString('es-ES'),
+    ];
+
+    const rows = [headers, values];
+    const worksheet = XLSX.utils.aoa_to_sheet(rows);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Registro');
+    const buffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+    const blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `registro-${submission.instagram || 'sin-instagram'}-${submission.id.slice(0, 8)}.xlsx`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
       <div className="bg-gradient-to-br from-zinc-950 via-black to-zinc-900 border border-yellow-500/30 rounded-3xl shadow-[0_0_40px_rgba(255,215,0,0.15)] max-w-6xl w-full max-h-[90vh] overflow-hidden animate-slideUp text-yellow-50">
@@ -228,11 +273,11 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                   <div
                     key={submission.id}
                     onClick={() => setSelectedSubmission(submission)}
-                    className="border border-yellow-500/20 rounded-2xl p-4 bg-white/5 hover:bg-white/10 transition-all cursor-pointer shadow-inner shadow-yellow-500/5"
+                    className="border border-yellow-500/20 rounded-2xl p-4 bg-white/5 hover:bg-white/10 transition-all cursor-pointer shadow-inner shadow-yellow-500/5 relative"
                   >
                     <div className="flex flex-col gap-3">
                       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm flex-1">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm flex-1 pr-20 md:pr-0">
                           <div className="flex items-center gap-2">
                             <Instagram className="w-4 h-4 text-pink-400 flex-shrink-0" />
                             <span className="font-semibold text-yellow-50 truncate">
@@ -252,28 +297,42 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                             </span>
                           </div>
                         </div>
-                        <div className="flex items-center justify-end gap-2" onClick={(e) => e.stopPropagation()}>
+                        <div
+                          className="flex flex-col md:flex-row items-end md:items-center justify-end gap-2 absolute right-2 top-2 md:static md:right-auto md:top-auto"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <button
+                            onClick={() => downloadSubmission(submission)}
+                            className="inline-flex items-center justify-center p-2.5 md:p-3 rounded-full border border-yellow-400/40 text-yellow-100 hover:bg-yellow-500/10 transition-colors self-end"
+                            title="Descargar registro"
+                          >
+                            <Download className="w-4 h-4 md:w-5 md:h-5" />
+                          </button>
                           <button
                             onClick={() => openEditModal(submission)}
-                            className="inline-flex items-center gap-1 px-3 py-1 rounded-full border border-yellow-400/40 text-yellow-100 text-xs uppercase tracking-[0.2em] hover:bg-yellow-500/10 transition-colors"
+                            className="inline-flex items-center justify-center p-2.5 md:p-3 rounded-full border border-yellow-400/40 text-yellow-100 hover:bg-yellow-500/10 transition-colors self-end"
                             title="Editar registro"
                           >
-                            <Pencil className="w-3.5 h-3.5" />
-                            Editar
+                            <Pencil className="w-4 h-4 md:w-5 md:h-5" />
                           </button>
                           <button
                             onClick={() => setPendingDelete(submission)}
-                            className="inline-flex items-center gap-1 px-3 py-1 rounded-full border border-red-500/50 text-red-200 text-xs uppercase tracking-[0.2em] hover:bg-red-500/10 transition-colors disabled:opacity-40"
+                            className="inline-flex items-center justify-center p-2.5 md:p-3 rounded-full border border-red-500/50 text-red-200 hover:bg-red-500/10 transition-colors disabled:opacity-40 self-end"
                             title="Eliminar registro"
                             disabled={deletingId === submission.id}
                           >
                             {deletingId === submission.id ? (
-                              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                              <Loader2 className="w-4 h-4 md:w-5 md:h-5 animate-spin" />
                             ) : (
-                              <Trash2 className="w-3.5 h-3.5" />
+                              <Trash2 className="w-4 h-4 md:w-5 md:h-5" />
                             )}
-                            Eliminar
                           </button>
+                        </div>
+                        <div className="text-xs uppercase tracking-[0.3em] text-yellow-200/70">
+                          Cupón:{' '}
+                          <span className="text-yellow-100 font-semibold normal-case tracking-normal">
+                            {submission.coupon_code?.trim() || 'Sin asignar'}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -400,6 +459,15 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                 <p>{selectedSubmission.address}</p>
               </div>
 
+              <div>
+                <div className="flex items-center gap-2 text-yellow-200 mb-1">
+                  <span className="text-sm font-medium">Cupón</span>
+                </div>
+                <p className="font-semibold text-yellow-100">
+                  {selectedSubmission.coupon_code?.trim() || 'Sin asignar'}
+                </p>
+              </div>
+
               {selectedSubmission.additional_notes && (
                 <div>
                   <div className="flex items-center gap-2 text-yellow-200 mb-1">
@@ -424,7 +492,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
             <div className="border-t border-yellow-500/20 bg-black/40 p-4 flex justify-end rounded-b-3xl">
               <button
                 onClick={() => setSelectedSubmission(null)}
-                className="px-6 py-2 bg-gradient-to-r from-red-700 via-yellow-600 to-red-700 text-black font-black rounded-xl transition-all"
+                className="px-6 py-2 bg-yellow-500 text-black font-black rounded-xl transition-all hover:bg-yellow-400"
               >
                 Cerrar
               </button>
@@ -506,6 +574,18 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
               </div>
 
               <div>
+                <label className="block text-sm font-medium text-yellow-200 mb-1">Cupón</label>
+                <input
+                  type="text"
+                  value={editForm.coupon_code}
+                  onChange={(e) => handleEditChange('coupon_code', e.target.value.toUpperCase())}
+                  placeholder="Ejemplo: MG-1234"
+                  className="w-full px-3 py-2 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent uppercase"
+                />
+                <p className="text-xs text-yellow-200/70 mt-1">Deja vacío si todavía no asignaste cupón.</p>
+              </div>
+
+              <div>
                 <label className="block text-sm font-medium text-yellow-200 mb-1">Notas adicionales</label>
                 <textarea
                   value={editForm.additional_notes}
@@ -526,7 +606,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                 <button
                   type="submit"
                   disabled={isSavingEdit}
-                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-red-700 via-yellow-600 to-red-700 text-black font-black flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-5 py-2 rounded-xl bg-yellow-500 text-black font-black flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-yellow-400"
                 >
                   {isSavingEdit ? (
                     <>

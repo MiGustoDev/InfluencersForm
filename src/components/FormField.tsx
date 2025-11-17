@@ -33,13 +33,13 @@ export function FormField({ field, value, onChange, error, placeholder }: FormFi
       case 'date':
         return (
           <div className="relative group/date">
-            <input
+          <input
               ref={dateInputRef}
-              type="date"
-              value={value}
-              onChange={(e) => onChange(e.target.value)}
+            type="date"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
               className={`${baseClasses} ${errorClasses} pl-14`}
-              required={field.required}
+            required={field.required}
               placeholder={placeholder}
               title={placeholder}
             />
@@ -56,13 +56,13 @@ export function FormField({ field, value, onChange, error, placeholder }: FormFi
       case 'time':
         return (
           <div className="relative group/time">
-            <input
+          <input
               ref={timeInputRef}
-              type="time"
-              value={value}
-              onChange={(e) => onChange(e.target.value)}
+            type="time"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
               className={`${baseClasses} ${errorClasses} pl-14`}
-              required={field.required}
+            required={field.required}
               placeholder={placeholder}
               title={placeholder}
             />

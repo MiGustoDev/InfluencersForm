@@ -133,7 +133,7 @@ export function AdminPanel({ onClose, onShowHistory, onConfigurationUpdated }: A
                 }
                 onShowHistory();
               }}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-red-700 via-yellow-600 to-red-700 text-black font-semibold px-4 py-2 rounded-2xl shadow-lg shadow-black/40 hover:from-red-600 hover:via-yellow-500 hover:to-red-600 transition-all"
+              className="inline-flex items-center gap-2 bg-yellow-500 text-black font-semibold px-4 py-2 rounded-2xl shadow-lg shadow-black/40 hover:bg-yellow-400 transition-all"
             >
               <History className="w-4 h-4" />
               Ver Historial
@@ -254,7 +254,7 @@ export function AdminPanel({ onClose, onShowHistory, onConfigurationUpdated }: A
           <button
             onClick={handleSave}
             disabled={isSaving}
-            className="px-6 py-2 bg-gradient-to-r from-red-700 via-yellow-600 to-red-700 text-black font-black rounded-xl transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-black/40"
+            className="px-6 py-2 bg-yellow-500 text-black font-black rounded-xl transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-black/40 hover:bg-yellow-400"
           >
             <Save className="w-5 h-5" />
             {isSaving ? 'Guardando...' : 'Guardar Cambios'}
