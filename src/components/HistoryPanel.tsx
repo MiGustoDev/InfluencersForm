@@ -475,8 +475,8 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                     className="border border-yellow-500/20 rounded-2xl p-4 bg-white/5 hover:bg-white/10 transition-all cursor-pointer shadow-inner shadow-yellow-500/5 relative"
                   >
                     <div className="flex flex-col gap-3">
-                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm flex-1 pr-20 md:pr-0">
+                      <div className="flex flex-col md:flex-row md:items-center gap-3 relative">
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm flex-1 pr-20 md:pr-0">
                           <div className="flex items-center gap-2">
                             <Instagram className="w-4 h-4 text-pink-400 flex-shrink-0" />
                             <span className="font-semibold text-yellow-50 truncate">
@@ -495,9 +495,17 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                               {new Date(submission.created_at).toLocaleDateString('es-ES')}
                             </span>
                           </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs uppercase tracking-[0.3em] text-yellow-200/70">
+                              Cupón:{' '}
+                            </span>
+                            <span className="text-yellow-100 font-semibold normal-case tracking-normal">
+                              {submission.coupon_code?.trim() || 'Sin asignar'}
+                            </span>
+                          </div>
                         </div>
                         <div
-                          className="flex flex-col md:flex-row items-end md:items-center justify-end gap-2 absolute right-2 top-2 md:static md:right-auto md:top-auto"
+                          className="flex flex-col md:flex-row items-end md:items-center gap-2 absolute right-2 top-2 md:relative md:right-auto md:top-auto md:ml-auto"
                           onClick={(e) => e.stopPropagation()}
                         >
                           <button
@@ -526,12 +534,6 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                               <Trash2 className="w-4 h-4 md:w-5 md:h-5" />
                             )}
                           </button>
-                        </div>
-                        <div className="text-xs uppercase tracking-[0.3em] text-yellow-200/70">
-                          Cupón:{' '}
-                          <span className="text-yellow-100 font-semibold normal-case tracking-normal">
-                            {submission.coupon_code?.trim() || 'Sin asignar'}
-                          </span>
                         </div>
                       </div>
                     </div>
