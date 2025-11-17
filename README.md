@@ -6,6 +6,8 @@ Aplicación React + Vite para gestionar el formulario de canjes con influencers 
 
 ![Demo](public/forminflusdemo2.png)
 
+![Demo](public/forminflusdemo3.png)
+
 ---
 
 ### Tecnologías

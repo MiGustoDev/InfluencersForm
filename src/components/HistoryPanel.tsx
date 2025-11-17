@@ -5,6 +5,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Calendar,
+  Calendar as CalendarIcon,
   Clock,
   MapPin,
   Instagram,
@@ -49,6 +50,13 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
   const messageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [lastDeleted, setLastDeleted] = useState<FormSubmission | null>(null);
   const [isRestoring, setIsRestoring] = useState(false);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [isDownloadingRange, setIsDownloadingRange] = useState(false);
+  const startDateInputRef = useRef<HTMLInputElement>(null);
+  const endDateInputRef = useRef<HTMLInputElement>(null);
+  const startDateInputMobileRef = useRef<HTMLInputElement>(null);
+  const endDateInputMobileRef = useRef<HTMLInputElement>(null);
   const showActionMessage = (message: string) => {
     if (messageTimeoutRef.current) {
       clearTimeout(messageTimeoutRef.current);
@@ -219,6 +227,77 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
     URL.revokeObjectURL(url);
   };
 
+  const downloadRange = async () => {
+    if (!startDate || !endDate) {
+      alert('Por favor selecciona ambas fechas (desde y hasta)');
+      return;
+    }
+
+    if (new Date(startDate) > new Date(endDate)) {
+      alert('La fecha de inicio debe ser anterior a la fecha de fin');
+      return;
+    }
+
+    try {
+      setIsDownloadingRange(true);
+      const submissions = await formService.getSubmissionsByDateRange(startDate, endDate);
+
+      if (submissions.length === 0) {
+        alert('No se encontraron registros en el rango de fechas seleccionado');
+        setIsDownloadingRange(false);
+        return;
+      }
+
+      const headers = [
+        'Instagram',
+        'Destinatario',
+        'Fecha deseada',
+        'Hora deseada',
+        'Dirección',
+        'Cupón',
+        'Notas adicionales',
+        'Creado el',
+      ];
+
+      const rows = submissions.map((submission) => [
+        submission.instagram,
+        submission.recipient_name,
+        submission.desired_date,
+        submission.desired_time,
+        submission.address,
+        submission.coupon_code || '',
+        submission.additional_notes || '',
+        new Date(submission.created_at).toLocaleString('es-ES'),
+      ]);
+
+      const worksheet = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Registros');
+      const buffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+      const blob = new Blob([buffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      const startFormatted = new Date(startDate).toLocaleDateString('es-ES').replace(/\//g, '-');
+      const endFormatted = new Date(endDate).toLocaleDateString('es-ES').replace(/\//g, '-');
+      link.download = `registros-${startFormatted}-${endFormatted}.xlsx`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      showActionMessage(`Descargados ${submissions.length} registros`);
+    } catch (error) {
+      console.error('Error downloading range:', error);
+      alert('Error al descargar los registros. Por favor intenta de nuevo.');
+    } finally {
+      setIsDownloadingRange(false);
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
       <div className="bg-gradient-to-br from-zinc-950 via-black to-zinc-900 border border-yellow-500/30 rounded-3xl shadow-[0_0_40px_rgba(255,215,0,0.15)] max-w-6xl w-full max-h-[90vh] overflow-hidden animate-slideUp text-yellow-50">
@@ -244,7 +323,127 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
         </div>
 
         <div className="p-6">
-          <div className="mb-6">
+          <div className="mb-6 space-y-4">
+            <div className="bg-black/30 border border-yellow-500/20 rounded-2xl p-4">
+              {/* Mobile: solo iconos en una fila con labels */}
+              <div className="flex md:hidden items-center justify-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => startDateInputMobileRef.current?.showPicker?.()}
+                  className="flex flex-col items-center gap-1 p-2 rounded-full border border-yellow-500/40 text-yellow-100 hover:bg-yellow-500/10 transition-colors"
+                  title="Fecha desde"
+                >
+                  <CalendarIcon className="w-5 h-5" />
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-yellow-400/70">Desde</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => endDateInputMobileRef.current?.showPicker?.()}
+                  className="flex flex-col items-center gap-1 p-2 rounded-full border border-yellow-500/40 text-yellow-100 hover:bg-yellow-500/10 transition-colors"
+                  title="Fecha hasta"
+                >
+                  <CalendarIcon className="w-5 h-5" />
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-yellow-400/70">Hasta</span>
+                </button>
+                <button
+                  onClick={downloadRange}
+                  disabled={isDownloadingRange || !startDate || !endDate}
+                  className="flex items-center justify-center p-3 bg-yellow-500 hover:bg-yellow-400 text-black font-black rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-black/40"
+                  title="Descargar rango de fechas"
+                >
+                  {isDownloadingRange ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <Download className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
+
+              {/* Desktop: con texto completo */}
+              <div className="hidden md:flex md:flex-row gap-4 items-end">
+                <div className="flex-1 grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs uppercase tracking-[0.3em] text-yellow-400/70 mb-2">
+                      Desde
+                    </label>
+                    <div className="relative">
+                      <input
+                        ref={startDateInputRef}
+                        type="date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        className="w-full pl-12 pr-4 py-2 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => startDateInputRef.current?.showPicker?.()}
+                        className="absolute inset-y-0 left-3 flex items-center justify-center text-yellow-400/70 hover:text-yellow-200 transition-colors pointer-events-none"
+                        aria-label="Seleccionar fecha inicial"
+                      >
+                        <CalendarIcon className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs uppercase tracking-[0.3em] text-yellow-400/70 mb-2">
+                      Hasta
+                    </label>
+                    <div className="relative">
+                      <input
+                        ref={endDateInputRef}
+                        type="date"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                        className="w-full pl-12 pr-4 py-2 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => endDateInputRef.current?.showPicker?.()}
+                        className="absolute inset-y-0 left-3 flex items-center justify-center text-yellow-400/70 hover:text-yellow-200 transition-colors pointer-events-none"
+                        aria-label="Seleccionar fecha final"
+                      >
+                        <CalendarIcon className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={downloadRange}
+                  disabled={isDownloadingRange || !startDate || !endDate}
+                  className="inline-flex items-center gap-2 px-6 py-2 bg-yellow-500 hover:bg-yellow-400 text-black font-black rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-black/40"
+                >
+                  {isDownloadingRange ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <span>Descargando...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Download className="w-5 h-5" />
+                      <span>Descargar Rango</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {/* Inputs ocultos para mobile (necesarios para el funcionamiento) */}
+              <input
+                ref={startDateInputMobileRef}
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="hidden"
+                aria-hidden="true"
+              />
+              <input
+                ref={endDateInputMobileRef}
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="hidden"
+                aria-hidden="true"
+              />
+            </div>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-yellow-200/60 w-5 h-5" />
               <input

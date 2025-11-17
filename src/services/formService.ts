@@ -101,5 +101,22 @@ export const formService = {
 
     if (error) throw error;
     return data;
+  },
+
+  async getSubmissionsByDateRange(startDate: string, endDate: string) {
+    const start = new Date(startDate);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(endDate);
+    end.setHours(23, 59, 59, 999);
+
+    const { data, error } = await supabase
+      .from('form_submissions')
+      .select('*')
+      .gte('created_at', start.toISOString())
+      .lte('created_at', end.toISOString())
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    return data || [];
   }
 };
