@@ -75,16 +75,8 @@ function App() {
         height: '100%',
       }} />
 
-      {/* Overlays existentes (gradientes) */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-red-900/20 via-black to-black z-10" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-yellow-900/20 via-transparent to-transparent z-10" />
-      <div className="absolute inset-0 z-10" style={{
-        backgroundImage: 'linear-gradient(rgba(255, 215, 0, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 215, 0, 0.03) 1px, transparent 1px)',
-        backgroundSize: '50px 50px'
-      }} />
-
       {/* Contenido */}
-      <div className="relative z-20 py-12 px-4 flex-1">
+      <div className="relative z-20 py-12 px-4 pl-24 flex-1">
         <MainForm
           onAdminClick={() => requestAccess('admin')}
           onHistoryClick={() => requestAccess('history')}
