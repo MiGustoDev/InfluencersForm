@@ -134,50 +134,47 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
       <div className="lg:hidden absolute top-4 right-4 flex flex-col gap-2 z-40">
         <button
           onClick={onHistoryClick}
-          className="w-10 h-10 rounded-full border border-yellow-500/10 bg-black/20 text-yellow-200/60 flex items-center justify-center backdrop-blur-sm opacity-40 hover:opacity-70 transition"
+          className="w-10 h-10 rounded-full border border-gray-400/40 bg-black/20 text-gray-300/60 flex items-center justify-center backdrop-blur-sm opacity-40 hover:opacity-70 transition"
           aria-label="Historial"
         >
           <History className="w-4 h-4" />
         </button>
         <button
           onClick={onAdminClick}
-          className="w-10 h-10 rounded-full border border-yellow-500/10 bg-black/20 text-yellow-200/60 flex items-center justify-center backdrop-blur-sm opacity-40 hover:opacity-70 transition"
+          className="w-10 h-10 rounded-full border border-gray-400/40 bg-black/20 text-gray-300/60 flex items-center justify-center backdrop-blur-sm opacity-40 hover:opacity-70 transition"
           aria-label="Admin"
         >
           <Shield className="w-4 h-4" />
         </button>
       </div>
       <div className="hidden lg:flex flex-col items-center gap-5 absolute top-12 right-6 opacity-30 hover:opacity-80 transition-opacity">
-        <div className="w-px h-10 bg-gradient-to-b from-yellow-500/40 via-yellow-500/5 to-transparent" />
+        <div className="w-px h-10 bg-gradient-to-b from-gray-400/40 via-gray-400/5 to-transparent" />
         <button
           onClick={onHistoryClick}
-          className="group relative w-12 h-12 rounded-full bg-black/40 border border-yellow-400/30 text-yellow-100/70 hover:text-yellow-50 hover:border-yellow-300 transition-all shadow-lg shadow-black/40 backdrop-blur-sm flex items-center justify-center"
+          className="group relative w-12 h-12 rounded-full bg-black/40 border border-gray-400/30 text-gray-200/70 hover:text-gray-50 hover:border-gray-200 transition-all shadow-lg shadow-black/40 backdrop-blur-sm flex items-center justify-center"
           aria-label="Historial"
         >
-          <div className="absolute inset-0 rounded-full bg-gradient-to-b from-yellow-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-          <History className="relative w-5 h-5 text-yellow-300 group-hover:text-yellow-200" />
-          <span className="absolute -left-32 top-1/2 -translate-y-1/2 text-[10px] tracking-[0.25em] uppercase text-yellow-200/70 bg-black/50 border border-yellow-500/20 px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute inset-0 rounded-full bg-gradient-to-b from-gray-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+          <History className="relative w-5 h-5 text-gray-300 group-hover:text-gray-200" />
+          <span className="absolute -left-32 top-1/2 -translate-y-1/2 text-[10px] tracking-[0.25em] uppercase text-gray-200/70 bg-black/50 border border-gray-400/20 px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
             Historial
           </span>
         </button>
-      <button
-        onClick={onAdminClick}
-          className="group relative w-12 h-12 rounded-full bg-black/40 border border-yellow-400/30 text-yellow-100/70 hover:text-yellow-50 hover:border-yellow-300 transition-all shadow-lg shadow-black/40 backdrop-blur-sm flex items-center justify-center"
-        aria-label="Admin"
+        <button
+          onClick={onAdminClick}
+          className="group relative w-12 h-12 rounded-full bg-black/40 border border-gray-400/30 text-gray-200/70 hover:text-gray-50 hover:border-gray-200 transition-all shadow-lg shadow-black/40 backdrop-blur-sm flex items-center justify-center"
+          aria-label="Admin"
         >
-          <div className="absolute inset-0 rounded-full bg-gradient-to-b from-yellow-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-          <Shield className="relative w-5 h-5 text-yellow-300 group-hover:text-yellow-200" />
-          <span className="absolute -left-28 top-1/2 -translate-y-1/2 text-[10px] tracking-[0.25em] uppercase text-yellow-200/70 bg-black/50 border border-yellow-500/20 px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute inset-0 rounded-full bg-gradient-to-b from-gray-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+          <Shield className="relative w-5 h-5 text-gray-300 group-hover:text-gray-200" />
+          <span className="absolute -left-28 top-1/2 -translate-y-1/2 text-[10px] tracking-[0.25em] uppercase text-gray-200/70 bg-black/50 border border-gray-400/20 px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
             Admin
           </span>
         </button>
       </div>
 
       <div className="relative group">
-        <div className="relative bg-gradient-to-br from-zinc-900 via-black to-zinc-900 rounded-3xl border-2 border-yellow-500/30 shadow-2xl overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50"></div>
-          <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-700 to-transparent opacity-30"></div>
-
+        <div className="relative bg-black/30 backdrop-blur rounded-3xl shadow-2xl overflow-hidden">
           <div className="p-10">
             <div className="text-center mb-10 space-y-6">
               <div className="flex justify-center mb-6">
@@ -193,7 +190,7 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
               <p className="text-gray-200 text-lg font-semibold">
                 Completa cada respuesta y presiona ENVIAR.
               </p>
-              <div className="flex flex-col md:flex-row items-center justify-between gap-3 bg-black/30 border border-yellow-500/30 rounded-2xl px-5 py-3 text-sm text-yellow-100">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-3 bg-black/30 rounded-2xl px-5 py-3 text-sm text-yellow-100">
                 <p className="uppercase tracking-[0.3em] text-xs text-yellow-400">Progreso rápido</p>
                 <div className="w-full md:w-auto flex items-center gap-3">
                   <div className="flex-1 bg-yellow-500/10 rounded-full h-3 overflow-hidden">
@@ -205,7 +202,7 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
                           : '0%',
                       }}
                     ></div>
-            </div>
+                  </div>
                   <span className="text-sm font-semibold">
                     {completedFields}/{fields.length} completados
                   </span>

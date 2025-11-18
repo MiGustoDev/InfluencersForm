@@ -13,8 +13,8 @@ interface FormFieldProps {
 export function FormField({ field, value, onChange, error, placeholder }: FormFieldProps) {
   if (!field.enabled) return null;
 
-  const baseClasses = "w-full px-5 py-4 bg-zinc-950 border-2 rounded-xl text-gray-100 placeholder-gray-600 focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all font-medium backdrop-blur-sm";
-  const errorClasses = error ? "border-red-600/70" : "border-yellow-500/20 hover:border-yellow-500/40";
+  const baseClasses = "w-full px-5 py-4 bg-black/30 rounded-xl text-gray-100 placeholder-white/50 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur-sm";
+  const errorClasses = error ? "" : "";
   const dateInputRef = useRef<HTMLInputElement>(null);
   const timeInputRef = useRef<HTMLInputElement>(null);
 
@@ -92,8 +92,8 @@ export function FormField({ field, value, onChange, error, placeholder }: FormFi
 
   return (
     <div className="animate-fadeIn group">
-      <label className="block text-sm font-bold text-yellow-500 mb-3 flex items-center gap-2 tracking-wider uppercase">
-        <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse" />
+      <label className="block text-sm font-bold text-white mb-3 flex items-center gap-2 tracking-wider uppercase">
+        <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
         {field.label}
         {field.required && <span className="text-red-600 text-lg ml-1">*</span>}
       </label>

@@ -12,6 +12,16 @@ html, body {
   overflow-y: auto;
   scrollbar-width: none; /* Firefox */
   scroll-behavior: smooth;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(20,20,20,0.35); /* oscurece el fondo */
+  pointer-events: none;
+  z-index: 1;
 }
 
 body::-webkit-scrollbar, html::-webkit-scrollbar {
