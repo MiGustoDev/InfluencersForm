@@ -63,7 +63,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-black relative overflow-hidden">
+    <div className="min-h-screen bg-black relative">
       {/* Fondo con la imagen: debajo de overlays y contenido */}
       <div className="absolute inset-0 z-0" style={{
         backgroundImage: "url('/background-text.jpg')",
