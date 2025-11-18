@@ -64,14 +64,27 @@ function App() {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-red-900/20 via-black to-black" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-yellow-900/20 via-transparent to-transparent" />
-      <div className="absolute inset-0" style={{
+      {/* Fondo con la imagen: debajo de overlays y contenido */}
+      <div className="absolute inset-0 z-0" style={{
+        backgroundImage: "url('/background-text.jpg')",
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center center',
+        minHeight: '100vh',
+        width: '100%',
+        height: '100%',
+      }} />
+
+      {/* Overlays existentes (gradientes) */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-red-900/20 via-black to-black z-10" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-yellow-900/20 via-transparent to-transparent z-10" />
+      <div className="absolute inset-0 z-10" style={{
         backgroundImage: 'linear-gradient(rgba(255, 215, 0, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 215, 0, 0.03) 1px, transparent 1px)',
         backgroundSize: '50px 50px'
       }} />
 
-      <div className="relative z-10 py-12 px-4">
+      {/* Contenido */}
+      <div className="relative z-20 py-12 px-4">
         <MainForm
           onAdminClick={() => requestAccess('admin')}
           onHistoryClick={() => requestAccess('history')}

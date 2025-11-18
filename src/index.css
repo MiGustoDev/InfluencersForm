@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+  background-image: url('/background-text.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  min-height: 100vh;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+}
+
+body::-webkit-scrollbar, html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari y Opera */
+}
+
 @layer utilities {
   @keyframes fadeIn {
     from {
