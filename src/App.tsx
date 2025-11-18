@@ -63,7 +63,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-black relative">
+    <div className="min-h-screen bg-black relative flex flex-col">
       {/* Fondo con la imagen: debajo de overlays y contenido */}
       <div className="absolute inset-0 z-0" style={{
         backgroundImage: "url('/background-text.jpg')",
@@ -84,7 +84,7 @@ function App() {
       }} />
 
       {/* Contenido */}
-      <div className="relative z-20 py-12 px-4">
+      <div className="relative z-20 py-12 px-4 flex-1">
         <MainForm
           onAdminClick={() => requestAccess('admin')}
           onHistoryClick={() => requestAccess('history')}
@@ -180,6 +180,14 @@ function App() {
           </div>
         )}
       </div>
+      {/* Footer totalmente integrado, sin division visual */}
+      <footer className="relative z-30 w-full flex items-center justify-center py-3 text-xs font-medium text-gray-400 bg-transparent">
+        © Desarrollado por el
+        <a href="https://waveframe.com.ar/" target="_blank" rel="noopener noreferrer" className="mx-1 text-gray-300 underline hover:text-gray-200 transition-colors">
+          Departamento de Sistemas
+        </a>
+        de Mi Gusto | Todos los derechos reservados.
+      </footer>
     </div>
   );
 }
