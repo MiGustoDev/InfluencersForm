@@ -300,22 +300,22 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
-      <div className="bg-gradient-to-br from-zinc-950 via-black to-zinc-900 border border-yellow-500/30 rounded-3xl shadow-[0_0_40px_rgba(255,215,0,0.15)] max-w-6xl w-full max-h-[90vh] overflow-hidden animate-slideUp text-yellow-50">
-        <div className="bg-gradient-to-r from-yellow-600/20 via-red-600/20 to-yellow-600/20 border-b border-yellow-500/30 text-yellow-100 p-6 flex items-center justify-between">
+      <div className="bg-black/30 backdrop-blur rounded-3xl shadow-2xl border border-white/10 max-w-6xl w-full max-h-[90vh] overflow-hidden animate-slideUp text-white">
+        <div className="border-b border-white/10 bg-white/5 text-yellow-100 p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-2xl bg-black/40 border border-yellow-500/40">
+            <div className="p-2 rounded-2xl bg-white/10 border border-white/10">
               <FileText className="w-6 h-6 text-yellow-300" />
             </div>
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-yellow-400/70">
                 Envíos recientes
               </p>
-              <h2 className="text-2xl font-black">Historial de Envíos</h2>
+              <h2 className="text-2xl font-black text-yellow-100">Historial de Envíos</h2>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="hover:bg-yellow-500/10 p-2 rounded-lg transition-colors border border-transparent hover:border-yellow-500/40"
+            className="hover:bg-white/10 p-2 rounded-lg transition-colors border border-transparent hover:border-white/30"
             aria-label="Cerrar historial"
           >
             <X className="w-6 h-6 text-yellow-200" />
@@ -324,13 +324,13 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
 
         <div className="p-6">
           <div className="mb-6 space-y-4">
-            <div className="bg-black/30 border border-yellow-500/20 rounded-2xl p-4">
+            <div className="bg-black/30 border border-white/10 rounded-2xl p-4">
               {/* Mobile: solo iconos en una fila con labels */}
               <div className="flex md:hidden items-center justify-center gap-3">
                 <button
                   type="button"
                   onClick={() => startDateInputMobileRef.current?.showPicker?.()}
-                  className="flex flex-col items-center gap-1 p-2 rounded-full border border-yellow-500/40 text-yellow-100 hover:bg-yellow-500/10 transition-colors"
+                  className="flex flex-col items-center gap-1 p-2 rounded-full border border-white/20 text-white hover:bg-white/10 transition-colors"
                   title="Fecha desde"
                 >
                   <CalendarIcon className="w-5 h-5" />
@@ -339,7 +339,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                 <button
                   type="button"
                   onClick={() => endDateInputMobileRef.current?.showPicker?.()}
-                  className="flex flex-col items-center gap-1 p-2 rounded-full border border-yellow-500/40 text-yellow-100 hover:bg-yellow-500/10 transition-colors"
+                  className="flex flex-col items-center gap-1 p-2 rounded-full border border-white/20 text-white hover:bg-white/10 transition-colors"
                   title="Fecha hasta"
                 >
                   <CalendarIcon className="w-5 h-5" />
@@ -348,7 +348,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                 <button
                   onClick={downloadRange}
                   disabled={isDownloadingRange || !startDate || !endDate}
-                  className="flex items-center justify-center p-3 bg-yellow-500 hover:bg-yellow-400 text-black font-black rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-black/40"
+                  className="flex items-center justify-center p-3 bg-yellow-500 hover:bg-yellow-400 text-black font-black rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-black/40"
                   title="Descargar rango de fechas"
                 >
                   {isDownloadingRange ? (
@@ -372,12 +372,12 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                         type="date"
                         value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
-                        className="w-full pl-12 pr-4 py-2 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                        className="w-full pl-12 pr-4 py-2 rounded-xl bg-black/30 text-white placeholder-white/40 focus:ring-2 focus:ring-white border border-transparent [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                       />
                       <button
                         type="button"
                         onClick={() => startDateInputRef.current?.showPicker?.()}
-                        className="absolute inset-y-0 left-3 flex items-center justify-center text-yellow-400/70 hover:text-yellow-200 transition-colors pointer-events-none"
+                        className="absolute inset-y-0 left-3 flex items-center justify-center text-white/70 pointer-events-none"
                         aria-label="Seleccionar fecha inicial"
                       >
                         <CalendarIcon className="w-5 h-5" />
@@ -394,12 +394,12 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                         type="date"
                         value={endDate}
                         onChange={(e) => setEndDate(e.target.value)}
-                        className="w-full pl-12 pr-4 py-2 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                        className="w-full pl-12 pr-4 py-2 rounded-xl bg-black/30 text-white placeholder-white/40 focus:ring-2 focus:ring-white border border-transparent [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                       />
                       <button
                         type="button"
                         onClick={() => endDateInputRef.current?.showPicker?.()}
-                        className="absolute inset-y-0 left-3 flex items-center justify-center text-yellow-400/70 hover:text-yellow-200 transition-colors pointer-events-none"
+                        className="absolute inset-y-0 left-3 flex items-center justify-center text-white/70 pointer-events-none"
                         aria-label="Seleccionar fecha final"
                       >
                         <CalendarIcon className="w-5 h-5" />
@@ -410,7 +410,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                 <button
                   onClick={downloadRange}
                   disabled={isDownloadingRange || !startDate || !endDate}
-                  className="inline-flex items-center gap-2 px-6 py-2 bg-yellow-500 hover:bg-yellow-400 text-black font-black rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-black/40"
+                  className="inline-flex items-center gap-2 px-6 py-2 bg-yellow-500 hover:bg-yellow-400 text-black font-black rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-black/40"
                 >
                   {isDownloadingRange ? (
                     <>
@@ -451,19 +451,19 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                 placeholder="Buscar por Instagram, nombre o dirección..."
                 value={searchTerm}
                 onChange={(e) => handleSearch(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 placeholder-yellow-200/40 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-black/30 text-white placeholder-white/40 focus:ring-2 focus:ring-white border border-transparent"
               />
             </div>
           </div>
 
           <div className="overflow-y-auto max-h-[calc(90vh-280px)] pr-1">
             {isLoading ? (
-              <div className="text-center py-12 text-yellow-200/70">
-                <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-yellow-500/30 border-t-yellow-400"></div>
-                <p className="mt-4 text-sm uppercase tracking-[0.3em]">Cargando...</p>
+              <div className="text-center py-12 text-gray-200/70">
+                <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-yellow-500/20 border-t-yellow-400"></div>
+                <p className="mt-4 text-sm uppercase tracking-[0.3em] text-gray-200">Cargando...</p>
               </div>
             ) : submissions.length === 0 ? (
-              <div className="text-center py-12 text-yellow-200/70">
+              <div className="text-center py-12 text-gray-200/70">
                 <p className="text-lg font-medium">No se encontraron envíos</p>
               </div>
             ) : (
@@ -472,31 +472,31 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                   <div
                     key={submission.id}
                     onClick={() => setSelectedSubmission(submission)}
-                    className="border border-yellow-500/20 rounded-2xl p-4 bg-white/5 hover:bg-white/10 transition-all cursor-pointer shadow-inner shadow-yellow-500/5 relative"
+                    className="border border-white/10 rounded-2xl p-4 bg-white/5 hover:bg-white/10 transition-all cursor-pointer shadow-inner shadow-black/40 relative"
                   >
                     <div className="flex flex-col gap-3">
                       <div className="flex flex-col md:flex-row md:items-center gap-3 relative">
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm flex-1 pr-20 md:pr-0">
                           <div className="flex items-center gap-2">
-                            <Instagram className="w-4 h-4 text-pink-400 flex-shrink-0" />
-                            <span className="font-semibold text-yellow-50 truncate">
+                            <Instagram className="w-4 h-4 text-white-500 flex-shrink-0" />
+                            <span className="font-semibold text-yellow-100 truncate">
                               @{submission.instagram}
                             </span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <User className="w-4 h-4 text-blue-300 flex-shrink-0" />
-                            <span className="text-yellow-100 truncate">
+                            <User className="w-4 h-4 text-gray-200 flex-shrink-0" />
+                            <span className="text-gray-200 truncate">
                               {submission.recipient_name}
                             </span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4 text-green-300 flex-shrink-0" />
-                            <span className="text-yellow-200/80 text-sm">
+                            <Calendar className="w-4 h-4 text-gray-200 flex-shrink-0" />
+                            <span className="text-gray-200/80 text-sm">
                               {new Date(submission.created_at).toLocaleDateString('es-ES')}
                             </span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="text-xs uppercase tracking-[0.3em] text-yellow-200/70">
+                            <span className="text-xs uppercase tracking-[0.3em] text-yellow-400/70">
                               Cupón:{' '}
                             </span>
                             <span className="text-yellow-100 font-semibold normal-case tracking-normal">
@@ -510,21 +510,21 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                         >
                           <button
                             onClick={() => downloadSubmission(submission)}
-                            className="inline-flex items-center justify-center p-2.5 md:p-3 rounded-full border border-yellow-400/40 text-yellow-100 hover:bg-yellow-500/10 transition-colors self-end"
+                            className="inline-flex items-center justify-center p-2.5 md:p-3 rounded-full border border-white/20 text-white hover:bg-green-500/20 hover:border-green-500/40 transition-colors self-end"
                             title="Descargar registro"
                           >
                             <Download className="w-4 h-4 md:w-5 md:h-5" />
                           </button>
                           <button
                             onClick={() => openEditModal(submission)}
-                            className="inline-flex items-center justify-center p-2.5 md:p-3 rounded-full border border-yellow-400/40 text-yellow-100 hover:bg-yellow-500/10 transition-colors self-end"
+                            className="inline-flex items-center justify-center p-2.5 md:p-3 rounded-full border border-white/20 text-white hover:bg-yellow-500/20 hover:border-yellow-500/40 transition-colors self-end"
                             title="Editar registro"
                           >
                             <Pencil className="w-4 h-4 md:w-5 md:h-5" />
                           </button>
                           <button
                             onClick={() => setPendingDelete(submission)}
-                            className="inline-flex items-center justify-center p-2.5 md:p-3 rounded-full border border-red-500/50 text-red-200 hover:bg-red-500/10 transition-colors disabled:opacity-40 self-end"
+                            className="inline-flex items-center justify-center p-2.5 md:p-3 rounded-full border border-white/20 text-white hover:bg-red-500/20 hover:border-red-500/40 transition-colors disabled:opacity-40 self-end"
                             title="Eliminar registro"
                             disabled={deletingId === submission.id}
                           >
@@ -544,8 +544,8 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
           </div>
 
           {totalPages > 1 && (
-            <div className="mt-6 flex items-center justify-between border-t border-yellow-500/20 pt-4 text-yellow-100/80">
-              <p className="text-sm">
+            <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4 text-gray-200">
+              <p className="text-sm text-gray-200">
                 Mostrando {currentPage * itemsPerPage + 1} -{' '}
                 {Math.min((currentPage + 1) * itemsPerPage, totalCount)} de {totalCount} envíos
               </p>
@@ -553,7 +553,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                 <button
                   onClick={() => setCurrentPage((prev) => Math.max(0, prev - 1))}
                   disabled={currentPage === 0}
-                  className="px-4 py-2 border border-yellow-500/30 rounded-xl hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+                  className="px-4 py-2 border border-yellow-500/30 rounded-xl text-yellow-100 hover:bg-yellow-500/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
                 >
                   <ChevronLeft className="w-4 h-4" />
                   Anterior
@@ -561,7 +561,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                 <button
                   onClick={() => setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1))}
                   disabled={currentPage >= totalPages - 1}
-                  className="px-4 py-2 border border-yellow-500/30 rounded-xl hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+                  className="px-4 py-2 border border-yellow-500/30 rounded-xl text-yellow-100 hover:bg-yellow-500/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
                 >
                   Siguiente
                   <ChevronRight className="w-4 h-4" />
@@ -571,8 +571,8 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
           )}
 
           {(actionMessage || lastDeleted) && (
-            <div className="mt-6 relative overflow-hidden rounded-2xl border border-yellow-500/30 bg-black/40 text-yellow-100 p-4 flex flex-col gap-3">
-              <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/10 via-red-600/10 to-yellow-500/10 animate-pulse"></div>
+            <div className="mt-6 relative overflow-hidden rounded-2xl border border-white/10 bg-black/30 text-white p-4 flex flex-col gap-3">
+              <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-black/10 to-white/10 animate-pulse"></div>
               {actionMessage && (
                 <div className="relative flex items-center justify-center gap-2 text-xs uppercase tracking-[0.4em]">
                   {actionMessage}
@@ -604,64 +604,64 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
           onClick={() => setSelectedSubmission(null)}
         >
           <div
-            className="bg-gradient-to-br from-zinc-950 via-black to-zinc-900 border border-yellow-500/30 rounded-3xl shadow-[0_0_30px_rgba(255,215,0,0.15)] max-w-2xl w-full animate-slideUp"
+            className="bg-black/30 backdrop-blur rounded-3xl border border-white/10 shadow-2xl max-w-2xl w-full animate-slideUp text-white"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="bg-gradient-to-r from-red-700 via-yellow-600 to-red-700 text-black p-6 flex items-center justify-between rounded-t-3xl">
-              <h3 className="text-xl font-black">Detalles del Envío</h3>
+            <div className="border-b border-white/10 bg-white/5 p-6 flex items-center justify-between rounded-t-3xl">
+              <h3 className="text-xl font-black text-yellow-100">Detalles del Envío</h3>
               <button
                 onClick={() => setSelectedSubmission(null)}
-                className="hover:bg-black/10 p-2 rounded-lg transition-colors"
+                className="hover:bg-white/10 p-2 rounded-lg transition-colors"
               >
-                <X className="w-5 h-5" />
+                <X className="w-5 h-5 text-yellow-200" />
               </button>
             </div>
 
-            <div className="p-6 space-y-4 text-yellow-50">
+            <div className="p-6 space-y-4 text-gray-200">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <div className="flex items-center gap-2 text-yellow-200 mb-1">
-                    <Instagram className="w-4 h-4" />
+                  <div className="flex items-center gap-2 text-yellow-400/70 mb-1">
+                    <Instagram className="w-4 h-4 text-pink-500" />
                     <span className="text-sm font-medium">Instagram</span>
                   </div>
-                  <p className="font-semibold">@{selectedSubmission.instagram}</p>
+                  <p className="font-semibold text-yellow-100">@{selectedSubmission.instagram}</p>
                 </div>
 
                 <div>
-                  <div className="flex items-center gap-2 text-yellow-200 mb-1">
+                  <div className="flex items-center gap-2 text-yellow-400/70 mb-1">
                     <User className="w-4 h-4" />
                     <span className="text-sm font-medium">Destinatario</span>
                   </div>
-                  <p>{selectedSubmission.recipient_name}</p>
+                  <p className="text-gray-200">{selectedSubmission.recipient_name}</p>
                 </div>
 
                 <div>
-                  <div className="flex items-center gap-2 text-yellow-200 mb-1">
+                  <div className="flex items-center gap-2 text-yellow-400/70 mb-1">
                     <Calendar className="w-4 h-4" />
                     <span className="text-sm font-medium">Fecha deseada</span>
                   </div>
-                  <p>{formatDate(selectedSubmission.desired_date)}</p>
+                  <p className="text-gray-200">{formatDate(selectedSubmission.desired_date)}</p>
                 </div>
 
                 <div>
-                  <div className="flex items-center gap-2 text-yellow-200 mb-1">
+                  <div className="flex items-center gap-2 text-yellow-400/70 mb-1">
                     <Clock className="w-4 h-4" />
                     <span className="text-sm font-medium">Hora deseada</span>
                   </div>
-                  <p>{formatTime(selectedSubmission.desired_time)}</p>
+                  <p className="text-gray-200">{formatTime(selectedSubmission.desired_time)}</p>
                 </div>
               </div>
 
               <div>
-                <div className="flex items-center gap-2 text-yellow-200 mb-1">
+                <div className="flex items-center gap-2 text-yellow-400/70 mb-1">
                   <MapPin className="w-4 h-4" />
                   <span className="text-sm font-medium">Dirección</span>
                 </div>
-                <p>{selectedSubmission.address}</p>
+                <p className="text-gray-200">{selectedSubmission.address}</p>
               </div>
 
               <div>
-                <div className="flex items-center gap-2 text-yellow-200 mb-1">
+                <div className="flex items-center gap-2 text-yellow-400/70 mb-1">
                   <span className="text-sm font-medium">Cupón</span>
                 </div>
                 <p className="font-semibold text-yellow-100">
@@ -671,17 +671,17 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
 
               {selectedSubmission.additional_notes && (
                 <div>
-                  <div className="flex items-center gap-2 text-yellow-200 mb-1">
+                  <div className="flex items-center gap-2 text-yellow-400/70 mb-1">
                     <FileText className="w-4 h-4" />
                     <span className="text-sm font-medium">Notas adicionales</span>
                   </div>
-                  <p className="bg-black/40 border border-yellow-500/20 p-3 rounded-2xl">
+                  <p className="bg-black/30 border border-white/10 p-3 rounded-2xl text-gray-200">
                     {selectedSubmission.additional_notes}
                   </p>
                 </div>
               )}
 
-              <div className="pt-4 border-t border-yellow-500/20 text-sm text-yellow-200/80">
+              <div className="pt-4 border-t border-white/10 text-sm text-gray-200/70">
                 Enviado el {formatDate(selectedSubmission.created_at)} a las{' '}
                 {new Date(selectedSubmission.created_at).toLocaleTimeString('es-ES', {
                   hour: '2-digit',
@@ -690,10 +690,10 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
               </div>
             </div>
 
-            <div className="border-t border-yellow-500/20 bg-black/40 p-4 flex justify-end rounded-b-3xl">
+            <div className="border-t border-white/10 bg-black/20 p-4 flex justify-end rounded-b-3xl">
               <button
                 onClick={() => setSelectedSubmission(null)}
-                className="px-6 py-2 bg-yellow-500 text-black font-black rounded-xl transition-all hover:bg-yellow-400"
+                className="px-6 py-2 bg-yellow-500 hover:bg-yellow-400 text-black font-black rounded-xl transition-all"
               >
                 Cerrar
               </button>
@@ -708,106 +708,106 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
           onClick={() => setEditingSubmission(null)}
         >
           <div
-            className="bg-gradient-to-br from-zinc-950 via-black to-zinc-900 border border-yellow-500/30 rounded-3xl shadow-[0_0_30px_rgba(255,215,0,0.15)] max-w-2xl w-full animate-slideUp"
+            className="bg-black/30 backdrop-blur rounded-3xl border border-white/10 shadow-2xl max-w-2xl w-full animate-slideUp text-white"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="bg-gradient-to-r from-yellow-600/30 via-red-600/30 to-yellow-600/30 text-yellow-50 p-6 flex items-center justify-between rounded-t-3xl">
+            <div className="border-b border-white/10 bg-white/5 p-6 flex items-center justify-between rounded-t-3xl">
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-yellow-200/70">Acción rápida</p>
-                <h3 className="text-xl font-black">Editar registro</h3>
+                <p className="text-xs uppercase tracking-[0.3em] text-yellow-400/70">Acción rápida</p>
+                <h3 className="text-xl font-black text-yellow-100">Editar registro</h3>
               </div>
               <button
                 onClick={() => setEditingSubmission(null)}
-                className="hover:bg-yellow-500/10 p-2 rounded-lg transition-colors"
+                className="hover:bg-white/10 p-2 rounded-lg transition-colors"
               >
-                <X className="w-5 h-5" />
+                <X className="w-5 h-5 text-yellow-200" />
               </button>
             </div>
 
-            <form className="p-6 space-y-4 text-yellow-50" onSubmit={handleEditSubmit}>
+            <form className="p-6 space-y-4 text-gray-200" onSubmit={handleEditSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-yellow-200 mb-1">Instagram</label>
+                  <label className="block text-sm font-medium text-yellow-400/70 mb-1">Instagram</label>
                   <input
                     type="text"
                     value={editForm.instagram}
                     onChange={(e) => handleEditChange('instagram', e.target.value)}
-                    className="w-full px-3 py-2 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                    className="w-full px-3 py-2 rounded-xl bg-black/30 text-white placeholder-white/50 focus:ring-2 focus:ring-white border border-transparent"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-yellow-200 mb-1">Destinatario</label>
+                  <label className="block text-sm font-medium text-yellow-400/70 mb-1">Destinatario</label>
                   <input
                     type="text"
                     value={editForm.recipient_name}
                     onChange={(e) => handleEditChange('recipient_name', e.target.value)}
-                    className="w-full px-3 py-2 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                    className="w-full px-3 py-2 rounded-xl bg-black/30 text-white placeholder-white/50 focus:ring-2 focus:ring-white border border-transparent"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-yellow-200 mb-1">Fecha deseada</label>
+                  <label className="block text-sm font-medium text-yellow-400/70 mb-1">Fecha deseada</label>
                   <input
                     type="date"
                     value={editForm.desired_date}
                     onChange={(e) => handleEditChange('desired_date', e.target.value)}
-                    className="w-full px-3 py-2 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                    className="w-full px-3 py-2 rounded-xl bg-black/30 text-white focus:ring-2 focus:ring-white border border-transparent"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-yellow-200 mb-1">Hora deseada</label>
+                  <label className="block text-sm font-medium text-yellow-400/70 mb-1">Hora deseada</label>
                   <input
                     type="time"
                     value={editForm.desired_time}
                     onChange={(e) => handleEditChange('desired_time', e.target.value)}
-                    className="w-full px-3 py-2 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                    className="w-full px-3 py-2 rounded-xl bg-black/30 text-white focus:ring-2 focus:ring-white border border-transparent"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-yellow-200 mb-1">Dirección</label>
+                <label className="block text-sm font-medium text-yellow-400/70 mb-1">Dirección</label>
                 <input
                   type="text"
                   value={editForm.address}
                   onChange={(e) => handleEditChange('address', e.target.value)}
-                  className="w-full px-3 py-2 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                  className="w-full px-3 py-2 rounded-xl bg-black/30 text-white placeholder-white/50 focus:ring-2 focus:ring-white border border-transparent"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-yellow-200 mb-1">Cupón</label>
+                <label className="block text-sm font-medium text-yellow-400/70 mb-1">Cupón</label>
                 <input
                   type="text"
                   value={editForm.coupon_code}
                   onChange={(e) => handleEditChange('coupon_code', e.target.value.toUpperCase())}
                   placeholder="Ejemplo: MG-1234"
-                  className="w-full px-3 py-2 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent uppercase"
+                  className="w-full px-3 py-2 rounded-xl bg-black/30 text-white placeholder-white/50 focus:ring-2 focus:ring-white border border-transparent uppercase"
                 />
-                <p className="text-xs text-yellow-200/70 mt-1">Deja vacío si todavía no asignaste cupón.</p>
+                <p className="text-xs text-gray-200/60 mt-1">Deja vacío si todavía no asignaste cupón.</p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-yellow-200 mb-1">Notas adicionales</label>
+                <label className="block text-sm font-medium text-yellow-400/70 mb-1">Notas adicionales</label>
                 <textarea
                   value={editForm.additional_notes}
                   onChange={(e) => handleEditChange('additional_notes', e.target.value)}
                   rows={3}
-                  className="w-full px-3 py-2 border border-yellow-500/30 rounded-xl bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                  className="w-full px-3 py-2 rounded-xl bg-black/30 text-white placeholder-white/50 focus:ring-2 focus:ring-white border border-transparent"
                 />
               </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t border-yellow-500/20">
+              <div className="flex justify-end gap-3 pt-4 border-t border-white/10">
                 <button
                   type="button"
                   onClick={() => setEditingSubmission(null)}
-                  className="px-5 py-2 border border-yellow-500/30 rounded-xl text-yellow-100 hover:bg-white/5 transition-colors"
+                  className="px-5 py-2 border border-yellow-500/30 rounded-xl text-yellow-100 hover:bg-yellow-500/10 transition-colors"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
                   disabled={isSavingEdit}
-                  className="px-5 py-2 rounded-xl bg-yellow-500 text-black font-black flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-yellow-400"
+                  className="px-5 py-2 rounded-xl bg-yellow-500 hover:bg-yellow-400 text-black font-black flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSavingEdit ? (
                     <>
@@ -833,29 +833,29 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
           onClick={() => setPendingDelete(null)}
         >
           <div
-            className="bg-gradient-to-br from-zinc-950 via-black to-zinc-900 border border-red-500/40 rounded-3xl shadow-[0_0_30px_rgba(255,0,0,0.25)] max-w-md w-full animate-slideUp"
+            className="bg-black/30 backdrop-blur rounded-3xl border border-white/10 shadow-2xl max-w-md w-full animate-slideUp text-white"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="bg-gradient-to-r from-red-700 via-yellow-600 to-red-700 text-black p-6 rounded-t-3xl">
-              <p className="text-xs uppercase tracking-[0.35em] text-black/70">Confirmación</p>
-              <h3 className="text-2xl font-black">Eliminar registro</h3>
+            <div className="border-b border-white/10 bg-white/5 p-6 rounded-t-3xl">
+              <p className="text-xs uppercase tracking-[0.35em] text-yellow-400/70">Confirmación</p>
+              <h3 className="text-2xl font-black text-yellow-100">Eliminar registro</h3>
             </div>
-            <div className="p-6 space-y-3 text-yellow-50">
-              <p className="text-sm text-yellow-200/80">
-                ¿Seguro que deseas eliminar el registro de <span className="font-semibold">@{pendingDelete.instagram}</span>? Esta acción no
+            <div className="p-6 space-y-3 text-gray-200">
+              <p className="text-sm text-gray-200/80">
+                ¿Seguro que deseas eliminar el registro de <span className="font-semibold text-yellow-100">@{pendingDelete.instagram}</span>? Esta acción no
                 se puede deshacer.
               </p>
             </div>
-            <div className="border-t border-red-500/40 bg-black/60 p-4 flex justify-end gap-3 rounded-b-3xl">
+            <div className="border-t border-white/10 bg-black/20 p-4 flex justify-end gap-3 rounded-b-3xl">
               <button
                 onClick={() => setPendingDelete(null)}
-                className="px-5 py-2 rounded-xl border border-yellow-500/30 text-yellow-100 hover:bg-white/5 transition-colors"
+                className="px-5 py-2 rounded-xl border border-yellow-500/30 text-yellow-100 hover:bg-yellow-500/10 transition-colors"
               >
                 Cancelar
               </button>
               <button
                 onClick={confirmDelete}
-                className="px-5 py-2 rounded-xl bg-gradient-to-r from-red-700 via-yellow-600 to-red-700 text-black font-black flex items-center gap-2"
+                className="px-5 py-2 rounded-xl bg-yellow-500 hover:bg-yellow-400 text-black font-black flex items-center gap-2"
               >
                 <Trash2 className="w-4 h-4" />
                 Eliminar
