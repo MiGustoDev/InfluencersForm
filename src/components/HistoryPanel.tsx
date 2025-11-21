@@ -704,11 +704,11 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
 
       {editingSubmission && (
         <div
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-60 flex items-center justify-center p-4 animate-fadeIn"
+          className="fixed inset-0 bg-black/80 backdrop-blur z-60 flex items-center justify-center p-4 animate-fadeIn"
           onClick={() => setEditingSubmission(null)}
         >
           <div
-            className="relative bg-black/30 backdrop-blur rounded-3xl shadow-2xl max-w-2xl w-full animate-slideUp overflow-hidden"
+            className="relative bg-black/30 backdrop-blur rounded-3xl shadow-2xl max-w-2xl w-full animate-slideUp overflow-hidden border border-gray-400/20"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-10">
@@ -736,7 +736,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                     type="text"
                     value={editForm.instagram}
                     onChange={(e) => handleEditChange('instagram', e.target.value)}
-                    className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 placeholder-white/50 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur-sm border border-gray-400/30"
+                    className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 placeholder-white/50 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur border border-gray-400/30"
                   />
                 </div>
                 <div>
@@ -748,7 +748,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                     type="text"
                     value={editForm.recipient_name}
                     onChange={(e) => handleEditChange('recipient_name', e.target.value)}
-                    className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 placeholder-white/50 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur-sm border border-gray-400/30"
+                    className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 placeholder-white/50 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur border border-gray-400/30"
                   />
                 </div>
                 <div>
@@ -760,7 +760,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                     type="date"
                     value={editForm.desired_date}
                     onChange={(e) => handleEditChange('desired_date', e.target.value)}
-                    className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur-sm border border-gray-400/30"
+                    className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur border border-gray-400/30"
                   />
                 </div>
                 <div>
@@ -772,7 +772,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                     type="time"
                     value={editForm.desired_time}
                     onChange={(e) => handleEditChange('desired_time', e.target.value)}
-                    className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur-sm border border-gray-400/30"
+                    className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur border border-gray-400/30"
                   />
                 </div>
               </div>
@@ -786,7 +786,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                   type="text"
                   value={editForm.address}
                   onChange={(e) => handleEditChange('address', e.target.value)}
-                  className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 placeholder-white/50 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur-sm border border-gray-400/30"
+                  className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 placeholder-white/50 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur border border-gray-400/30"
                 />
               </div>
 
@@ -800,7 +800,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                   value={editForm.coupon_code}
                   onChange={(e) => handleEditChange('coupon_code', e.target.value.toUpperCase())}
                   placeholder="Ejemplo: MG-1234"
-                  className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 placeholder-white/50 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur-sm border border-gray-400/30 uppercase"
+                  className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 placeholder-white/50 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur border border-gray-400/30 uppercase"
                 />
                 <p className="text-xs text-gray-200/60 mt-1">Deja vacío si todavía no asignaste cupón.</p>
               </div>
@@ -814,7 +814,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                   value={editForm.additional_notes}
                   onChange={(e) => handleEditChange('additional_notes', e.target.value)}
                   rows={3}
-                  className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 placeholder-white/50 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur-sm border border-gray-400/30 min-h-[120px] resize-y"
+                  className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 placeholder-white/50 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur border border-gray-400/30 min-h-[120px] resize-y"
                 />
               </div>
 
