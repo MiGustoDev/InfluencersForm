@@ -203,11 +203,7 @@ export function AdminPanel({ onClose, onShowHistory, onConfigurationUpdated }: A
                   <div className="flex lg:flex-col gap-2">
                     <button
                       onClick={() => toggleFieldEnabled(index)}
-                      className={`p-2 rounded-lg transition-colors border ${
-                        field.enabled
-                          ? 'bg-green-500/10 text-green-300 border-green-400/30 hover:bg-green-500/20'
-                          : 'bg-zinc-800 text-zinc-300 border-zinc-600 hover:bg-zinc-700'
-                      }`}
+                      className={`p-2 rounded-lg transition-colors border bg-zinc-700 text-zinc-400 border-zinc-600 hover:bg-green-500/10 hover:text-green-300 hover:border-green-400/30`}
                       title={field.enabled ? 'Deshabilitar' : 'Habilitar'}
                     >
                       {field.enabled ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
@@ -215,7 +211,7 @@ export function AdminPanel({ onClose, onShowHistory, onConfigurationUpdated }: A
 
                     <button
                       onClick={() => removeField(index)}
-                      className="p-2 bg-red-500/10 text-red-300 hover:bg-red-500/20 rounded-lg transition-colors border border-red-500/30"
+                      className="p-2 bg-zinc-700 text-zinc-400 border-zinc-600 hover:bg-red-500/10 hover:text-red-300 hover:border-red-500/30 rounded-lg transition-colors border"
                       title="Eliminar"
                     >
                       <Trash2 className="w-5 h-5" />
