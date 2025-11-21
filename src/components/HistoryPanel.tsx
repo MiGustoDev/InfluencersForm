@@ -600,7 +600,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
 
       {selectedSubmission && (
         <div
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-60 flex items-center justify-center p-4 animate-fadeIn"
+          className="fixed inset-0 bg-black/60 backdrop-blur-lg z-60 flex items-center justify-center p-4 animate-fadeIn"
           onClick={() => setSelectedSubmission(null)}
         >
           <div
@@ -704,7 +704,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
 
       {editingSubmission && (
         <div
-          className="fixed inset-0 bg-black/80 backdrop-blur z-60 flex items-center justify-center p-4 animate-fadeIn"
+          className="fixed inset-0 bg-black/60 backdrop-blur-lg z-60 flex items-center justify-center p-4 animate-fadeIn"
           onClick={() => setEditingSubmission(null)}
         >
           <div
@@ -852,7 +852,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
 
       {pendingDelete && (
         <div
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-60 flex items-center justify-center p-4 animate-fadeIn"
+          className="fixed inset-0 bg-black/60 backdrop-blur-lg z-60 flex items-center justify-center p-4 animate-fadeIn"
           onClick={() => setPendingDelete(null)}
         >
           <div

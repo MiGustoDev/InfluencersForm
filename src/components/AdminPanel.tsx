@@ -100,7 +100,7 @@ export function AdminPanel({ onClose, onShowHistory, onConfigurationUpdated }: A
   };
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fadeIn bg-black/60 backdrop-blur-lg">
       <div className="bg-black/30 backdrop-blur rounded-3xl shadow-2xl border border-white/10 max-w-6xl w-full max-h-[90vh] flex flex-col animate-slideUp text-white">
         <div className="border-b border-white/10 bg-white/5 text-yellow-100 p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">

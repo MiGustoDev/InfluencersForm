@@ -97,7 +97,7 @@ function App() {
         {showHistory && <HistoryPanel onClose={() => setShowHistory(false)} />}
 
         {pendingAccess && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-lg z-50 flex items-center justify-center p-4 animate-fadeIn">
             <div className="bg-black/30 backdrop-blur rounded-3xl shadow-2xl border border-white/10 max-w-md w-full animate-slideUp text-white">
               <div className="border-b border-white/10 bg-white/5 text-yellow-100 p-6 flex items-center justify-between">
                 <div>
