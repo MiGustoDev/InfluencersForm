@@ -708,91 +708,113 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
           onClick={() => setEditingSubmission(null)}
         >
           <div
-            className="bg-black/30 backdrop-blur rounded-3xl border border-white/10 shadow-2xl max-w-2xl w-full animate-slideUp text-white"
+            className="relative bg-black/30 backdrop-blur rounded-3xl shadow-2xl max-w-2xl w-full animate-slideUp overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="border-b border-white/10 bg-white/5 p-6 flex items-center justify-between rounded-t-3xl">
-              <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-yellow-400/70">Acción rápida</p>
-                <h3 className="text-xl font-black text-yellow-100">Editar registro</h3>
-              </div>
-              <button
-                onClick={() => setEditingSubmission(null)}
-                className="hover:bg-white/10 p-2 rounded-lg transition-colors"
-              >
-                <X className="w-5 h-5 text-yellow-200" />
-              </button>
-            </div>
-
-            <form className="p-6 space-y-4 text-gray-200" onSubmit={handleEditSubmit}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-10">
+              <div className="flex items-center justify-between mb-8">
                 <div>
-                  <label className="block text-sm font-medium text-yellow-400/70 mb-1">Instagram</label>
+                  <p className="text-xs uppercase tracking-[0.3em] text-yellow-400/70">Acción rápida</p>
+                  <h3 className="text-2xl font-black text-yellow-100">Editar registro</h3>
+                </div>
+                <button
+                  onClick={() => setEditingSubmission(null)}
+                  className="hover:bg-white/10 p-2 rounded-lg transition-colors"
+                >
+                  <X className="w-5 h-5 text-yellow-200" />
+                </button>
+              </div>
+
+            <form className="space-y-6" onSubmit={handleEditSubmit}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-bold text-white mb-3 flex items-center gap-2 tracking-wider uppercase">
+                    <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                    Instagram
+                  </label>
                   <input
                     type="text"
                     value={editForm.instagram}
                     onChange={(e) => handleEditChange('instagram', e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-black/30 text-white placeholder-white/50 focus:ring-2 focus:ring-white border border-transparent"
+                    className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 placeholder-white/50 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur-sm border border-gray-400/30"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-yellow-400/70 mb-1">Destinatario</label>
+                  <label className="block text-sm font-bold text-white mb-3 flex items-center gap-2 tracking-wider uppercase">
+                    <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                    Destinatario
+                  </label>
                   <input
                     type="text"
                     value={editForm.recipient_name}
                     onChange={(e) => handleEditChange('recipient_name', e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-black/30 text-white placeholder-white/50 focus:ring-2 focus:ring-white border border-transparent"
+                    className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 placeholder-white/50 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur-sm border border-gray-400/30"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-yellow-400/70 mb-1">Fecha deseada</label>
+                  <label className="block text-sm font-bold text-white mb-3 flex items-center gap-2 tracking-wider uppercase">
+                    <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                    Fecha deseada
+                  </label>
                   <input
                     type="date"
                     value={editForm.desired_date}
                     onChange={(e) => handleEditChange('desired_date', e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-black/30 text-white focus:ring-2 focus:ring-white border border-transparent"
+                    className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur-sm border border-gray-400/30"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-yellow-400/70 mb-1">Hora deseada</label>
+                  <label className="block text-sm font-bold text-white mb-3 flex items-center gap-2 tracking-wider uppercase">
+                    <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                    Hora deseada
+                  </label>
                   <input
                     type="time"
                     value={editForm.desired_time}
                     onChange={(e) => handleEditChange('desired_time', e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-black/30 text-white focus:ring-2 focus:ring-white border border-transparent"
+                    className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur-sm border border-gray-400/30"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-yellow-400/70 mb-1">Dirección</label>
+                <label className="block text-sm font-bold text-white mb-3 flex items-center gap-2 tracking-wider uppercase">
+                  <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                  Dirección
+                </label>
                 <input
                   type="text"
                   value={editForm.address}
                   onChange={(e) => handleEditChange('address', e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-black/30 text-white placeholder-white/50 focus:ring-2 focus:ring-white border border-transparent"
+                  className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 placeholder-white/50 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur-sm border border-gray-400/30"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-yellow-400/70 mb-1">Cupón</label>
+                <label className="block text-sm font-bold text-white mb-3 flex items-center gap-2 tracking-wider uppercase">
+                  <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                  Cupón
+                </label>
                 <input
                   type="text"
                   value={editForm.coupon_code}
                   onChange={(e) => handleEditChange('coupon_code', e.target.value.toUpperCase())}
                   placeholder="Ejemplo: MG-1234"
-                  className="w-full px-3 py-2 rounded-xl bg-black/30 text-white placeholder-white/50 focus:ring-2 focus:ring-white border border-transparent uppercase"
+                  className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 placeholder-white/50 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur-sm border border-gray-400/30 uppercase"
                 />
                 <p className="text-xs text-gray-200/60 mt-1">Deja vacío si todavía no asignaste cupón.</p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-yellow-400/70 mb-1">Notas adicionales</label>
+                <label className="block text-sm font-bold text-white mb-3 flex items-center gap-2 tracking-wider uppercase">
+                  <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                  Notas adicionales
+                </label>
                 <textarea
                   value={editForm.additional_notes}
                   onChange={(e) => handleEditChange('additional_notes', e.target.value)}
                   rows={3}
-                  className="w-full px-3 py-2 rounded-xl bg-black/30 text-white placeholder-white/50 focus:ring-2 focus:ring-white border border-transparent"
+                  className="w-full px-5 py-4 rounded-xl bg-black/30 text-gray-100 placeholder-white/50 focus:ring-2 focus:ring-white transition-all font-medium backdrop-blur-sm border border-gray-400/30 min-h-[120px] resize-y"
                 />
               </div>
 
@@ -823,6 +845,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
                 </button>
               </div>
             </form>
+            </div>
           </div>
         </div>
       )}

@@ -97,9 +97,9 @@ function App() {
         {showHistory && <HistoryPanel onClose={() => setShowHistory(false)} />}
 
         {pendingAccess && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center px-4">
-            <div className="bg-gradient-to-br from-zinc-950 via-black to-zinc-900 border border-yellow-500/30 rounded-3xl max-w-md w-full shadow-[0_0_30px_rgba(255,215,0,0.2)] animate-slideUp">
-              <div className="flex items-center justify-between px-6 py-4 border-b border-yellow-500/20">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
+            <div className="bg-black/30 backdrop-blur rounded-3xl shadow-2xl border border-white/10 max-w-md w-full animate-slideUp text-white">
+              <div className="border-b border-white/10 bg-white/5 text-yellow-100 p-6 flex items-center justify-between">
                 <div>
                   <p className="text-xs uppercase tracking-[0.4em] text-yellow-400/70">Acceso restringido</p>
                   <h3 className="text-2xl font-black text-yellow-100">
@@ -108,7 +108,7 @@ function App() {
                 </div>
                 <button
                   onClick={closePinModal}
-                  className="p-2 rounded-xl border border-yellow-500/30 text-yellow-200 hover:bg-yellow-500/10 transition"
+                  className="p-2 rounded-xl border border-white/10 text-yellow-200 hover:bg-yellow-500/10 transition"
                   aria-label="Cerrar solicitud de acceso"
                 >
                   <X className="w-4 h-4" />
@@ -128,7 +128,7 @@ function App() {
                       maxLength={4}
                       value={pinValue}
                       onChange={(e) => setPinValue(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                      className="w-full px-4 py-3 text-center text-2xl tracking-[0.5em] bg-black/40 border border-yellow-500/30 rounded-2xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                      className="w-full px-4 py-3 text-center text-2xl tracking-[0.5em] bg-black/40 border border-white/10 rounded-2xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                       autoFocus
                     />
                     <button
@@ -161,7 +161,7 @@ function App() {
                   <button
                     type="submit"
                     disabled={pinValue.length !== 4}
-                    className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-red-700 via-yellow-600 to-red-700 text-black font-black uppercase tracking-[0.3em] disabled:opacity-50"
+                    className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-yellow-500 text-black font-black uppercase tracking-[0.3em] disabled:opacity-50 hover:bg-yellow-400 transition-all"
                   >
                     <Lock className="w-4 h-4" />
                     Entrar

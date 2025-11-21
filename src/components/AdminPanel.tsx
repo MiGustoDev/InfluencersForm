@@ -101,8 +101,8 @@ export function AdminPanel({ onClose, onShowHistory, onConfigurationUpdated }: A
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
-      <div className="relative bg-gradient-to-br from-zinc-950 via-black to-zinc-900 border border-yellow-500/30 rounded-3xl shadow-[0_0_40px_rgba(255,215,0,0.15)] max-w-4xl w-full max-h-[90vh] overflow-hidden animate-slideUp text-yellow-50 flex flex-col">
-        <div className="bg-gradient-to-r from-yellow-600/20 via-red-600/20 to-yellow-600/20 border-b border-yellow-500/30 text-yellow-100 p-6 flex items-center justify-between">
+      <div className="bg-black/30 backdrop-blur rounded-3xl shadow-2xl border border-white/10 max-w-6xl w-full max-h-[90vh] overflow-hidden animate-slideUp text-white">
+        <div className="border-b border-white/10 bg-white/5 text-yellow-100 p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-2xl bg-black/40 border border-yellow-500/40">
               <Settings className="w-6 h-6 text-yellow-300" />
