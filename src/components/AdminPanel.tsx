@@ -101,7 +101,7 @@ export function AdminPanel({ onClose, onShowHistory, onConfigurationUpdated }: A
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
-      <div className="bg-black/30 backdrop-blur rounded-3xl shadow-2xl border border-white/10 max-w-6xl w-full max-h-[90vh] overflow-hidden animate-slideUp text-white">
+      <div className="bg-black/30 backdrop-blur rounded-3xl shadow-2xl border border-white/10 max-w-6xl w-full max-h-[90vh] flex flex-col animate-slideUp text-white">
         <div className="border-b border-white/10 bg-white/5 text-yellow-100 p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-2xl bg-black/40 border border-yellow-500/40">
@@ -123,7 +123,7 @@ export function AdminPanel({ onClose, onShowHistory, onConfigurationUpdated }: A
           </button>
         </div>
 
-        <div className="p-6 overflow-y-auto flex-1 pb-28 lg:pb-10">
+        <div className="flex-1 min-h-0 p-6 overflow-y-auto pb-28 lg:pb-10 scrollbar-none" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           <div className="mb-6 flex flex-wrap gap-3 items-center">
             <button
               onClick={() => {
@@ -149,36 +149,27 @@ export function AdminPanel({ onClose, onShowHistory, onConfigurationUpdated }: A
             {fields.map((field, index) => (
               <div
                 key={index}
-                className={`border rounded-2xl p-4 transition-all backdrop-blur-sm ${
-                  field.enabled
-                    ? 'border-yellow-500/30 bg-white/5 shadow-inner shadow-yellow-500/5'
-                    : 'border-zinc-700 bg-black/30 opacity-70'
-                }`}
+                className={`border rounded-2xl p-4 transition-all backdrop-blur-sm border-zinc-700 bg-zinc-800/40 ${!field.enabled ? 'opacity-60 grayscale' : ''}`}
               >
                 <div className="flex flex-col lg:flex-row items-start gap-4">
                   <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-yellow-200 mb-1">
-                        Etiqueta
-                      </label>
+                      <label className="block text-sm font-medium text-yellow-200 mb-1">Etiqueta</label>
                       <input
                         type="text"
                         value={field.label}
                         onChange={(e) => updateField(index, { label: e.target.value })}
-                        className="w-full px-3 py-2 border border-yellow-500/30 rounded-lg bg-black/40 text-yellow-50 placeholder-yellow-200/50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border border-zinc-700 rounded-lg bg-black/40 text-yellow-50 placeholder-yellow-200/50 focus:ring-2 focus:ring-yellow-500 focus:border-zinc-700 disabled:bg-zinc-900 disabled:text-zinc-500 disabled:cursor-not-allowed"
+                        disabled={!field.enabled}
                       />
                     </div>
-
                     <div>
-                      <label className="block text-sm font-medium text-yellow-200 mb-1">
-                        Tipo
-                      </label>
+                      <label className="block text-sm font-medium text-yellow-200 mb-1">Tipo</label>
                       <select
                         value={field.type}
-                        onChange={(e) =>
-                          updateField(index, { type: e.target.value as FormField['type'] })
-                        }
-                        className="w-full px-3 py-2 border border-yellow-500/30 rounded-lg bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                        onChange={(e) => updateField(index, { type: e.target.value as FormField['type'] })}
+                        className="w-full px-3 py-2 border border-zinc-700 rounded-lg bg-black/40 text-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:border-zinc-700 disabled:bg-zinc-900 disabled:text-zinc-500 disabled:cursor-not-allowed"
+                        disabled={!field.enabled}
                       >
                         <option value="text">Texto</option>
                         <option value="textarea">Área de texto</option>
@@ -186,20 +177,19 @@ export function AdminPanel({ onClose, onShowHistory, onConfigurationUpdated }: A
                         <option value="time">Hora</option>
                       </select>
                     </div>
-
                     <div className="flex items-center gap-4">
                       <label className="flex items-center gap-2 cursor-pointer text-yellow-100">
                         <input
                           type="checkbox"
                           checked={field.required}
                           onChange={(e) => updateField(index, { required: e.target.checked })}
-                          className="w-4 h-4 rounded border-yellow-500/40 text-yellow-500 focus:ring-yellow-500/60 bg-black/40"
+                          className="w-4 h-4 rounded border-zinc-700 text-yellow-500 focus:ring-yellow-500/60 bg-black/40 disabled:bg-zinc-900 disabled:text-zinc-500 disabled:cursor-not-allowed"
+                          disabled={!field.enabled}
                         />
                         <span className="text-sm font-semibold">Obligatorio</span>
                       </label>
                     </div>
                   </div>
-
                   <div className="flex lg:flex-col gap-2">
                     <button
                       onClick={() => toggleFieldEnabled(index)}
@@ -208,11 +198,11 @@ export function AdminPanel({ onClose, onShowHistory, onConfigurationUpdated }: A
                     >
                       {field.enabled ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
                     </button>
-
                     <button
                       onClick={() => removeField(index)}
-                      className="p-2 bg-zinc-700 text-zinc-400 border-zinc-600 hover:bg-red-500/10 hover:text-red-300 hover:border-red-500/30 rounded-lg transition-colors border"
+                      className="p-2 bg-zinc-700 text-zinc-400 border-zinc-600 hover:bg-red-500/10 hover:text-red-300 hover:border-red-500/30 rounded-lg transition-colors border disabled:opacity-40 disabled:cursor-not-allowed"
                       title="Eliminar"
+                      disabled={!field.enabled}
                     >
                       <Trash2 className="w-5 h-5" />
                     </button>
