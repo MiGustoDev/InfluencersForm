@@ -101,7 +101,7 @@ export function AdminPanel({ onClose, onShowHistory, onConfigurationUpdated }: A
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fadeIn bg-black/60 backdrop-blur-lg">
-      <div className="bg-black/30 backdrop-blur rounded-3xl shadow-2xl border border-white/10 max-w-6xl w-full max-h-[90vh] flex flex-col animate-slideUp text-white">
+      <div className="bg-black/30 backdrop-blur rounded-3xl shadow-2xl border border-white/10 max-w-6xl w-full max-h-[90vh] animate-slideUp text-white overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         <div className="border-b border-white/10 bg-white/5 text-yellow-100 p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-2xl bg-black/40 border border-yellow-500/40">
@@ -123,7 +123,7 @@ export function AdminPanel({ onClose, onShowHistory, onConfigurationUpdated }: A
           </button>
         </div>
 
-        <div className="flex-1 min-h-0 p-6 overflow-y-auto pb-28 lg:pb-10 scrollbar-none" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <div className="p-6">
           <div className="mb-6 flex flex-wrap gap-3 items-center">
             <button
               onClick={() => {
