@@ -27,6 +27,7 @@ Aplicación React + Vite para gestionar el formulario de canjes con influencers 
 
 ---
 
-### Despliegue en (`https://migusto.com.ar/canje`)
+### Despliegue en (`https://migusto.com.ar/canjes`)
+
 
 Desarrollado por el [Departamento de Sistemas](https://waveframe.com.ar) de Mi Gusto 🥟
