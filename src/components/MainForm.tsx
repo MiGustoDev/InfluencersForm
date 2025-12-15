@@ -131,22 +131,33 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
 
   return (
     <div className="relative max-w-4xl mx-auto lg:pr-28">
-      <div className="lg:hidden absolute top-4 right-4 flex flex-col gap-2 z-40">
+      {/* Mobile Actions - More visible and accessible */}
+      {/* Mobile Actions - More visible and accessible */}
+      <div className="lg:hidden flex items-center justify-end gap-3 mb-6 opacity-30 hover:opacity-100 transition-opacity duration-300">
         <button
           onClick={onHistoryClick}
-          className="w-10 h-10 rounded-full border border-gray-400/40 bg-black/20 text-gray-300/60 flex items-center justify-center backdrop-blur-sm opacity-40 hover:opacity-70 transition"
+          className="group relative w-12 h-12 rounded-full bg-black/40 border border-gray-400/30 text-gray-200/70 hover:text-gray-50 hover:border-gray-200 transition-all shadow-lg shadow-black/40 backdrop-blur-sm flex items-center justify-center"
           aria-label="Historial"
         >
-          <History className="w-4 h-4" />
+          <div className="absolute inset-0 rounded-full bg-gradient-to-b from-gray-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+          <History className="relative w-5 h-5 text-gray-300 group-hover:text-gray-200" />
+          <span className="absolute -left-32 top-1/2 -translate-y-1/2 text-[10px] tracking-[0.25em] uppercase text-gray-200/70 bg-black/50 border border-gray-400/20 px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Historial
+          </span>
         </button>
         <button
           onClick={onAdminClick}
-          className="w-10 h-10 rounded-full border border-gray-400/40 bg-black/20 text-gray-300/60 flex items-center justify-center backdrop-blur-sm opacity-40 hover:opacity-70 transition"
+          className="group relative w-12 h-12 rounded-full bg-black/40 border border-gray-400/30 text-gray-200/70 hover:text-gray-50 hover:border-gray-200 transition-all shadow-lg shadow-black/40 backdrop-blur-sm flex items-center justify-center"
           aria-label="Admin"
         >
-          <Shield className="w-4 h-4" />
+          <div className="absolute inset-0 rounded-full bg-gradient-to-b from-gray-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+          <Shield className="relative w-5 h-5 text-gray-300 group-hover:text-gray-200" />
+          <span className="absolute -left-28 top-1/2 -translate-y-1/2 text-[10px] tracking-[0.25em] uppercase text-gray-200/70 bg-black/50 border border-gray-400/20 px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Admin
+          </span>
         </button>
       </div>
+
       <div className="hidden lg:flex flex-col items-center gap-5 absolute top-12 right-6 opacity-30 hover:opacity-80 transition-opacity">
         <div className="w-px h-10 bg-gradient-to-b from-gray-400/40 via-gray-400/5 to-transparent" />
         <button
@@ -174,26 +185,26 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
       </div>
 
       <div className="relative group">
-        <div className="relative bg-black/30 backdrop-blur rounded-3xl shadow-2xl overflow-hidden">
-          <div className="p-10">
-            <div className="text-center mb-10 space-y-6">
-              <div className="flex justify-center mb-6">
+        <div className="relative bg-black/30 backdrop-blur rounded-3xl shadow-2xl overflow-hidden border border-white/5">
+          <div className="p-6 md:p-10">
+            <div className="text-center mb-8 md:mb-10 space-y-4 md:space-y-6">
+              <div className="flex justify-center mb-4 md:mb-6">
                 <img
                   src={`${import.meta.env.BASE_URL}Logo Mi Gusto 2025.png`}
                   alt="Logo Mi Gusto"
-                  className="w-60 h-auto drop-shadow-[0_0_25px_rgba(255,255,255,0.35)]"
+                  className="w-40 md:w-60 h-auto drop-shadow-[0_0_25px_rgba(255,255,255,0.35)]"
                 />
               </div>
-              <h1 className="text-5xl font-black text-yellow-100">
+              <h1 className="text-3xl md:text-5xl font-black text-yellow-100 leading-tight">
                 FORMULARIO DE CANJES
               </h1>
-              <p className="text-gray-200 text-lg font-semibold">
+              <p className="text-gray-200 text-sm md:text-lg font-semibold px-4">
                 Completa cada respuesta y presiona ENVIAR.
               </p>
               <div className="flex flex-col md:flex-row items-center justify-between gap-3 bg-black/30 rounded-2xl px-5 py-3 text-sm text-yellow-100">
-                <p className="uppercase tracking-[0.3em] text-xs text-yellow-400">Progreso rápido</p>
+                <p className="uppercase tracking-[0.3em] text-[10px] md:text-xs text-yellow-400">Progreso rápido</p>
                 <div className="w-full md:w-auto flex items-center gap-3">
-                  <div className="flex-1 bg-yellow-500/10 rounded-full h-3 overflow-hidden">
+                  <div className="flex-1 bg-yellow-500/10 rounded-full h-3 overflow-hidden min-w-[100px]">
                     <div
                       className="bg-yellow-400 h-3 transition-all"
                       style={{
@@ -203,7 +214,7 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
                       }}
                     ></div>
                   </div>
-                  <span className="text-sm font-semibold">
+                  <span className="text-xs md:text-sm font-semibold whitespace-nowrap">
                     {completedFields}/{fields.length} completados
                   </span>
                 </div>
@@ -229,15 +240,15 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
                   className="relative w-full group/btn"
                 >
                   <div className="absolute -inset-0.5 rounded-xl bg-yellow-400 opacity-60 group-hover/btn:opacity-80 transition duration-200"></div>
-                  <div className="relative flex items-center justify-center gap-3 px-8 py-5 bg-yellow-500 rounded-xl text-black font-black text-xl tracking-wide shadow-lg transition-all duration-200 group-hover/btn:bg-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed">
+                  <div className="relative flex items-center justify-center gap-3 px-8 py-4 md:py-5 bg-yellow-500 rounded-xl text-black font-black text-lg md:text-xl tracking-wide shadow-lg transition-all duration-200 group-hover/btn:bg-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed">
                     {isSubmitting ? (
                       <>
-                        <Loader2 className="w-7 h-7 animate-spin" />
+                        <Loader2 className="w-6 h-6 md:w-7 md:h-7 animate-spin" />
                         <span>ENVIANDO...</span>
                       </>
                     ) : (
                       <>
-                        <Send className="w-7 h-7" />
+                        <Send className="w-6 h-6 md:w-7 md:h-7" />
                         <span>ENVIAR FORMULARIO</span>
                       </>
                     )}

@@ -76,7 +76,7 @@ function App() {
       }} />
 
       {/* Contenido */}
-      <div className="relative z-20 py-12 px-4 pl-24 flex-1">
+      <div className="relative z-20 py-8 md:py-12 px-4 lg:pl-24 flex-1">
         <MainForm
           onAdminClick={() => requestAccess('admin')}
           onHistoryClick={() => requestAccess('history')}
@@ -173,12 +173,12 @@ function App() {
         )}
       </div>
       {/* Footer totalmente integrado, sin division visual */}
-      <footer className="relative z-30 w-full flex items-center justify-center py-3 text-xs font-medium text-gray-400 bg-transparent">
-        © Desarrollado por el
+      <footer className="relative z-30 w-full flex flex-col md:flex-row items-center justify-center py-3 text-[10px] md:text-xs font-medium text-gray-400 bg-transparent text-center px-4">
+        <span>© Desarrollado por el</span>
         <a href="https://waveframe.com.ar/" target="_blank" rel="noopener noreferrer" className="mx-1 text-gray-300 underline hover:text-gray-200 transition-colors">
           Departamento de Sistemas
         </a>
-        de Mi Gusto | Todos los derechos reservados.
+        <span>de Mi Gusto | Todos los derechos reservados.</span>
       </footer>
     </div>
   );
