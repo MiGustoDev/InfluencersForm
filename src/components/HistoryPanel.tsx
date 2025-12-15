@@ -300,7 +300,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
-      <div className="bg-black/30 backdrop-blur rounded-3xl shadow-2xl border border-white/10 max-w-6xl w-full max-h-[90vh] overflow-hidden animate-slideUp text-white">
+      <div className="bg-black/30 backdrop-blur rounded-3xl shadow-2xl border border-white/10 max-w-6xl w-full max-h-[90vh] flex flex-col animate-slideUp text-white">
         <div className="border-b border-white/10 bg-white/5 text-yellow-100 p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-2xl bg-white/10 border border-white/10">
@@ -322,7 +322,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
           </button>
         </div>
 
-        <div className="p-6">
+        <div className="p-6 flex flex-col flex-1 min-h-0">
           <div className="mb-6 space-y-4">
             <div className="bg-black/30 border border-white/10 rounded-2xl p-4">
               {/* Mobile: solo iconos en una fila con labels */}
@@ -456,7 +456,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
             </div>
           </div>
 
-          <div className="overflow-y-auto max-h-[calc(90vh-280px)] pr-1">
+          <div className="flex-1 overflow-y-auto min-h-0 pr-1 pb-4 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent hover:scrollbar-thumb-white/30">
             {isLoading ? (
               <div className="text-center py-12 text-gray-200/70">
                 <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-yellow-500/20 border-t-yellow-400"></div>
