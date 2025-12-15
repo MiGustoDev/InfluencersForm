@@ -708,7 +708,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
           onClick={() => setEditingSubmission(null)}
         >
           <div
-            className="relative bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] animate-slideUp overflow-y-auto border border-gray-400/20 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+            className="relative bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] md:max-h-none animate-slideUp overflow-y-auto md:overflow-visible border border-gray-400/20 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-6 md:p-10">
