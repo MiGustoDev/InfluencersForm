@@ -179,7 +179,7 @@ export function MainForm({ onAdminClick, onHistoryClick, refreshToken }: MainFor
             <div className="text-center mb-10 space-y-6">
               <div className="flex justify-center mb-6">
                 <img
-                  src="/Logo%20Mi%20Gusto%202025.png"
+                  src={`${import.meta.env.BASE_URL}Logo Mi Gusto 2025.png`}
                   alt="Logo Mi Gusto"
                   className="w-60 h-auto drop-shadow-[0_0_25px_rgba(255,255,255,0.35)]"
                 />

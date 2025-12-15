@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html, body {
-  background-image: url('/background-text.jpg');
+  background-image: url('/canjes/background-text.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
