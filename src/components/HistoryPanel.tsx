@@ -456,7 +456,7 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto min-h-0 pr-1 pb-4 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent hover:scrollbar-thumb-white/30">
+          <div className="flex-1 overflow-y-auto min-h-0 pr-1 pb-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {isLoading ? (
               <div className="text-center py-12 text-gray-200/70">
                 <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-yellow-500/20 border-t-yellow-400"></div>
@@ -708,10 +708,10 @@ export function HistoryPanel({ onClose }: HistoryPanelProps) {
           onClick={() => setEditingSubmission(null)}
         >
           <div
-            className="relative bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl max-w-2xl w-full animate-slideUp overflow-hidden border border-gray-400/20"
+            className="relative bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] animate-slideUp overflow-y-auto border border-gray-400/20 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-10">
+            <div className="p-6 md:p-10">
               <div className="flex items-center justify-between mb-8">
                 <div>
                   <p className="text-xs uppercase tracking-[0.3em] text-yellow-400/70">Acción rápida</p>
